@@ -1,0 +1,10 @@
+{
+    "python.pythonPath": "<path to your virtualenv>/bin/python",
+    "python.autoComplete.extraPaths": [
+        "${workspaceFolder}/hello"
+    ],
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.formatting.provider": "black",
+    "editor.formatOnSave": true
+}
