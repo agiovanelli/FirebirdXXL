@@ -1,0 +1,383 @@
+/* Reset del margine e del padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: white;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    text-align: center;
+    align-items: center;
+    background-color: rgb(43, 43, 143);
+    height: 70px;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: rgb(43, 43, 143);
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#cambiologo
+{   
+    position: relative;
+    display: inline-block;
+    margin-left: 90px;
+    margin-right: 10px;
+}
+
+#cambiologo img {
+    display: block;
+    transition: opacity 0.3s ease-in-out;
+    width: 50px;
+    height: 50px;
+}
+
+#cambiologo img#default {
+    opacity: 1;
+}
+
+#cambiologo img#hover {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#cambiologo:hover img#default {
+    opacity: 0;
+}
+
+#cambiologo:hover img#hover {
+    opacity: 1;
+}
+
+#cambio {
+    position: relative;
+    display: inline-block;
+}
+
+#cambio img {
+    display: block;
+    transition: opacity 0.3s ease-in-out;
+    width: 50px;
+    height: 50px;
+}
+
+#cambio img#default {
+    opacity: 1;
+}
+
+#cambio img#hover {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#cambio:hover img#default {
+    opacity: 0;
+}
+
+#cambio:hover img#hover {
+    opacity: 1;
+}
+
+.titolo {
+    margin: 0;
+    font-size: 3em;
+    text-align: center;
+    flex-grow: 1;
+    color:white;
+}
+
+#filtro {
+    background-color: rgb(43, 43, 143);
+    color: white;
+    padding: 20px; /* Spaziatura interna */
+    width: 225px; /* Larghezza */
+    height: 90vh; /* Altezza del viewport */
+    float: left; /* Flottante a sinistra */
+    border: 1px solid rgb(40, 40, 131);
+}
+
+
+#filtro .contenitore-icone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Stile per le icone */
+#filtro .iconeHome {
+    margin-top: 20px; /* Maggiore spaziatura superiore */
+    margin-bottom: 40px; /* Maggiore spaziatura inferiore */
+    width: 60px; /* Larghezza aumentata delle icone */
+    height: 60px; /* Altezza aumentata delle icone */
+    cursor: pointer; /* Aggiunge il cursore puntatore */
+}
+
+/* Rimuove lo spazio dopo l'ultima immagine */
+#filtro .iconeHome:last-child {
+    margin-bottom: 0; /* Rimuove il margine inferiore dall'ultima immagine */
+}
+
+nav {
+    background-color: white; /* Sfondo bianco */
+    padding: 20px; /* Spaziatura interna */
+    width: 250px; /* Larghezza */
+    height: 83vh; /* Altezza del viewport */
+    float: right; /* Flottante a destra */
+}
+
+nav .centrato h2 {
+    color: white !important; /* Testo bianco */
+}
+
+/* Stile per i bottoni nel nav */
+.menu-item {
+    background: rgb(43, 43, 143);
+    position: relative; /* Rendi relativo il contenitore del bottone */
+    display: inline-block; /* Imposta il display a inline-block per posizionare il menu rispetto al bottone */
+    border: 1px solid white; /* Bordo bianco */
+    padding: 20px; /* Spaziatura interna */
+    margin-bottom: 25px; /* Aumenta lo spazio inferiore tra i bottoni */
+    margin-top: 60px; /* Aggiungi margine superiore */
+    text-align: center; /* Allineamento centrato */
+    cursor: pointer; /* Mostra il cursore come puntatore */
+    border-radius: 10px; /* Arrotonda gli angoli */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra */
+    transition: background-color 0.3s, transform 0.3s; /* Transizione per sfondo e trasformazione */
+    display: flex; /* Usa Flexbox per allineare gli elementi */
+    align-items: center; /* Allinea verticalmente gli elementi al centro */
+}
+
+.image-container {
+    margin-right: 10px; /* Aggiunge spazio a destra dell'immagine */
+}
+
+.button {
+    background: rgb(43, 43, 143);
+    border: none;
+    cursor: pointer;
+    outline: none;
+    display: block;
+    width: 100%; /* Imposta la larghezza al 100% del contenitore del bottone */
+    height: 100%; /* Imposta l'altezza al 100% del contenitore del bottone */
+    text-align: center;
+    padding: 20px; /* Spaziatura interna per matchare lo stile del bottone */
+}
+
+.menu-item .dropdown-content {
+    display: none; /* Nascondi il menu a discesa di default */
+    position: absolute; /* Rendi assoluta la posizione del menu */
+    background-color: #f9f9f9; /* Colore di sfondo del menu */
+    min-width: 120px; /* Riduci la larghezza minima del menu */
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); /* Ombra del menu */
+    z-index: 1; /* Imposta un indice z per posizionare il menu sopra gli altri elementi */
+    top: 100%; /* Posiziona il menu a discesa sotto il bottone */
+    left: 50%;
+    transform: translateX(-50%); /* Centra il menu a discesa sotto il bottone */
+}
+
+.menu-item:hover .dropdown-content {
+    display: block; /* Mostra il menu a discesa quando passi sopra il bottone */
+}
+
+.menu-item .dropdown-content span {
+    color: black; /* Colore del testo nel menu */
+    padding: 5px 7px; /* Riduci lo spazio interno del testo nel menu */
+    text-decoration: none; /* Rimuovi la sottolineatura del testo nel menu */
+    display: block; /* Rendi il testo nel menu un blocco */
+    cursor: default; /* Imposta il cursore come predefinito */
+}
+
+.menu-item:hover{
+    background-color: rgb(207, 75, 27); /* Cambia il colore di sfondo al passaggio del mouse */
+}
+
+.button:hover{
+    background-color: rgb(207, 75, 27);
+}
+
+/* Mostra il menu a tendina quando il bottone è in focus */
+.button:focus + .dropdown-content,
+.button:focus-within + .dropdown-content {
+    display: block;
+}
+
+/* Stile per il contenuto/risultati */
+#contenuto {
+    background-color: #ffffff; /* Bianco */
+    color: black; /* Nero */
+    margin: 10px 230px; /* Margine laterale per far spazio a filtro e nav */
+    flex: 1;
+}
+
+.scorrevole {
+    max-height: 88%;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+}
+
+/* Stile per il footer */
+footer {
+    background-color: rgb(207, 75, 27); /* Colore del footer */
+    color: white; /* Testo bianco */
+    padding: 10px; /* Spaziatura interna */
+    text-align: center; /* Allineamento centrato */
+    position: fixed; /* Posizionamento fisso */
+    width: 100%; /* Larghezza del 100% della finestra */
+    bottom: 0; /* Fissa il footer al fondo */
+    left: 0; /* Allinea il footer a sinistra */
+    z-index: 1000; /* Assicura che il footer sia sopra il contenuto */
+}
+
+table {
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    unicode-bidi: isolate
+}
+
+thead {
+    display: table-row-group;
+    vertical-align: middle;
+    unicode-bidi: isolate;
+    border-color: inherit;
+}
+
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    unicode-bidi: isolate;
+    border-color: inherit;
+}
+
+.tabella {
+    border: 2px solid #230adf;
+    width: 100%;
+}
+
+.testata {
+    color: white;
+    height: 40px;
+    position: sticky;
+    background: #5b6be5;
+    top: 0;
+    z-index: 1;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    unicode-bidi: isolate;
+    border-color: inherit;
+}
+
+#rigaDispari {
+    background: #28459c;
+    color: rgb(255, 255, 255);
+}
+
+#rigaPari {
+    background: #3359ce;
+    color: white;
+}
+
+.hidden {
+    display: none;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+html, body {
+    overflow: hidden;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.delete-button {
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    padding: 0;
+}
+
+.delete-button:hover {
+    text-decoration: underline;
+}
+
+#trasparente {
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    padding: 0;
+}
+
+#trasparente:hover {
+    text-decoration: underline;
+}
+
+/* Cambio colore della riga al passaggio del mouse */
+#contenuto .revisione-row:hover {
+    background-color: rgb(248, 140, 101); /* Cambia il colore di sfondo al passaggio del mouse */
+}
+
+/* Cambio colore della riga al passaggio del mouse */
+#contenuto .targa-row:hover {
+    background-color: rgb(248, 140, 101); /* Cambia il colore di sfondo al passaggio del mouse */
+}
+
+/* Cambio colore della riga al passaggio del mouse */
+#contenuto .tabella tbody tr:hover {
+    background-color: rgb(248, 140, 101); /* Cambia il colore di sfondo al passaggio del mouse */
+}
+
+td.imgcentr {
+    text-align: center;
+    vertical-align: middle;
+    height: 100%;
+}
+
+td.imgcentr a {
+    display: inline-block;
+    height: 100%;
+}
+
+td.imgcentr a img {
+    display: block;
+    margin: auto;
+}
+
+.sort{
+    height: 20px;
+    width: 20px;
+    float: right;
+    margin-right: 10px;
+    cursor: pointer;
+}

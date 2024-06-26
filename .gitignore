@@ -1,0 +1,14 @@
+*.pyc
+__pycache__/
+db.sqlite3
+/media/
+*.log
+*.pot
+*.pyc
+*.mo
+*.swp
+.DS_Store
+*.coverage
+*.mypy_cache/
+*.pyo
+.tox/

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Luca Ciancio, Alessio Giovanelli, Fabio Izzo">
+  <meta http-equiv="Cache-control" content="no-cache">
+  <title>Home</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'hello/css/style.css' %}">
+</head>
+<body>
+    <header>
+      <div class="header-container">
+        <div id="cambiologo">
+          <a href="home.php"><img src="{% static 'hello/images/fenicebianca.png' %}" alt="icona fenice" class="icona" id="default"></a>
+          <a href="home.php"><img src="{% static 'hello/images/fenicearancione.png' %}" alt="icona fenice" class="icona" id="hover"></a>
+        </div>
+          <h1 class="titolo">FirebirdXXL</h1>
+      </div>
+  </header>
+
+  <div id="filtro">
+    <div class="centrato">
+        <div class="contenitore-icone">
+            <div id="cambio">
+                <img class="iconeHome" src="{% static 'hello/images/fuocobianco.png' %}" alt="icona fuoco" width="100" height="100" id="default">
+                <img class="iconeHome" src="{% static 'hello/images/fuocoarancione.png' %}" alt="icona fuoco" width="100" height="100" id="hover"><br><br><br><br>
+            </div>
+            <div id="cambio">
+                <img class="iconeHome" src="{% static 'hello/images/piubianco.png' %}" alt="icona piu" width="100" height="100" id="default">
+                <img class="iconeHome" src="{% static 'hello/images/piuarancione.png' %}" alt="icona piu" width="100" height="100" id="hover"><br><br><br><br>
+            </div>
+            <div id="cambio">
+                <img class="iconeHome" src="{% static 'hello/images/uccellobianco.png' %}" alt="icona uccello" width="100" height="100" id="default">
+                <img class="iconeHome" src="{% static 'hello/images/uccelloarancione.png' %}" alt="icona uccello" width="100" height="100" id="hover">
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav>
+    <div class="centrato">
+        <div class="menu-item">
+            <a href="veicolo.php" class="button">
+                <div class="image-container">
+                    <div id="cambio">
+                        <img src="{% static 'hello/images/veicolobianco.png' %}" alt="icona veicolo" width="50" height="50" id="default">
+                        <img src="{% static 'hello/images/veicoloblu.png' %}" alt="icona veicolo" width="50" height="50" id="hover">
+                    </div>
+                </div>
+            </a>
+            <div class="dropdown-content">
+                <span>Veicoli</span>
+            </div>
+        </div>
+        <div class="menu-item">
+            <a href="targa.php" class="button">
+                <div class="image-container">
+                    <div id="cambio">
+                        <img src="{% static 'hello/images/targabianca.png' %}" alt="icona targa" width="50" height="50" id="default">
+                        <img src="{% static 'hello/images/targablu.png' %}" alt="icona targa" width="50" height="50" id="hover">
+                    </div>
+                </div>
+            </a>
+            <div class="dropdown-content">
+                <span>Targhe</span>
+            </div>
+        </div>
+        <div class="menu-item">
+            <a href="revisione.php" class="button">
+                <div class="image-container">
+                    <div id="cambio">
+                        <img src="{% static 'hello/images/revisionebianca.png' %}" alt="icona revisione" width="50" height="50" id="default">
+                        <img src="{% static 'hello/images/revisioneblu.png' %}" alt="icona revisione" width="50" height="50" id="hover">
+                    </div>
+                </div>
+            </a>
+            <div class="dropdown-content">
+                <span>Revisioni</span>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+  <div id="contenuto">
+    <div class="centrato">
+      <h1>Cos'è FirebirdXXL</h1>
+      <p>Firebird è un sistema della Motorizzazione Civile per gestire i veicoli e le targhe.</p>
+      <p>XXL perché ci piace fare le cose in grande.</p><br><br>
+      <h2>Come si effettua la ricerca</h2>
+      <p>Sulla destra vi sono tre bottoni: Veicoli, Targhe e Revisioni</p>
+      <p>Cliccando su ognuno dei pulsanti verrete portati in una pagina dove potrete cercare, ed eventualmente aggiungere, l'oggetto della vostra ricerca.</p>
+      <p>Sulla sinistra di ogni pagina ci sono dei filtri che vi faciliteranno la ricerca.</p><br><br>
+      <h2>I dati</h2>
+      <p>Ogni pagina possiede un database con più di mille elementi contenenti le più disparate combinazioni.</p><br><br>
+      <h2>Perché utilizzare il nostro sito</h2>
+      <p>La vera domanda è, perché NON utilizzare il nostro sito.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
