@@ -14,8 +14,10 @@
     <header>
         <div class="header-container">
             <div id="cambiologo">
-                <a href="home.php"><img src="images/fenicebianca" alt="icona fenice" class="icona" id="default"></a>
-                <a href="home.php"><img src="images/fenicearancione" alt="icona fenice" class="icona" id="hover"></a>
+                <a href="{% url 'home' %}"><img src="{% static 'hello/images/fenicebianca.png' %}" alt="icona fenice"
+                        class="icona" id="default"></a>
+                <a href="{% url 'home' %}"><img src="{% static 'hello/images/fenicearancione.png' %}" alt="icona fenice"
+                        class="icona" id="hover"></a>
             </div>
             <h1 class="titolo">Revisioni</h1>
         </div>
@@ -58,11 +60,13 @@
     <nav>
         <div class="centrato">
             <div class="menu-item">
-                <a href="home.php" class="button">
+                <a href="{% url 'home' %}" class="button">
                     <div class="image-container">
                         <div id="cambio">
-                            <img src="images/homebianca" alt="icona targa" width="50" height="50" id="default">
-                            <img src="images/homeblu" alt="icona targa" width="50" height="50" id="hover">
+                            <img src="{% static 'hello/images/homebianca.png' %}" alt="icona targa" width="50"
+                                height="50" id="default">
+                            <img src="{% static 'hello/images/homeblu.png' %}" alt="icona targa" width="50" height="50"
+                                id="hover">
                         </div>
                     </div>
                 </a>
@@ -71,11 +75,13 @@
                 </div>
             </div>
             <div class="menu-item">
-                <a href="veicolo.php" class="button">
+                <a href="{% url 'veicolo' %}" class="button">
                     <div class="image-container">
                         <div id="cambio">
-                            <img src="images/veicolobianco" alt="icona targa" width="50" height="50" id="default">
-                            <img src="images/veicoloblu" alt="icona targa" width="50" height="50" id="hover">
+                            <img src="{% static 'hello/images/veicolobianco.png' %}" alt="icona targa" width="50"
+                                height="50" id="default">
+                            <img src="{% static 'hello/images/veicoloblu.png' %}" alt="icona targa" width="50"
+                                height="50" id="hover">
                         </div>
                     </div>
                 </a>
@@ -84,11 +90,13 @@
                 </div>
             </div>
             <div class="menu-item">
-                <a href="targa.php" class="button">
+                <a href="{% url 'targa' %}" class="button">
                     <div class="image-container">
                         <div id="cambio">
-                            <img src="images/targabianca" alt="icona targa" width="50" height="50" id="default">
-                            <img src="images/targablu" alt="icona targa" width="50" height="50" id="hover">
+                            <img src="{% static 'hello/images/targabianca.png' %}" alt="icona targa" width="50"
+                                height="50" id="default">
+                            <img src="{% static 'hello/images/targablu.png' %}" alt="icona targa" width="50" height="50"
+                                id="hover">
                         </div>
                     </div>
                 </a>
@@ -98,6 +106,8 @@
             </div>
         </div>
     </nav>
+
+    {% include './footer.html' %}
 </body>
 
 </html>

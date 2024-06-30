@@ -7,17 +7,18 @@
     <meta name="author" content="Luca Ciancio, Alessio Giovanelli, Fabio Izzo">
     <meta http-equiv="Cache-control" content="no-cache">
     <title>Aggiungi</title>
-    <link rel="icon" href="../images/fenicebianca" type="image/png">
-    <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/code.js"></script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'hello/css/style.css' %}">
 </head>
 
 <body onload="visualeAggiungi()">
     <header>
         <div class="header-container">
             <div id="cambiologo">
-                <a href="home.php"><img src="images/fenicebianca" alt="icona fenice" class="icona" id="default"></a>
-                <a href="home.php"><img src="images/fenicearancione" alt="icona fenice" class="icona" id="hover"></a>
+                <a href="{% url 'home' %}"><img src="{% static 'hello/images/fenicebianca.png' %}" alt="icona fenice"
+                        class="icona" id="default"></a>
+                <a href="{% url 'home' %}"><img src="{% static 'hello/images/fenicearancione.png' %}" alt="icona fenice"
+                        class="icona" id="hover"></a>
             </div>
             <h1 class="titolo">Aggiungi</h1>
         </div>
@@ -32,11 +33,13 @@
     <nav>
         <div class="centrato">
             <div class="elemento-menu">
-                <a href="home.php" class="link-bottone">
+                <a href="{% url 'home' %}" class="link-bottone">
                     <div class="contenitore-immagine">
                         <div class="cambio-immagine">
-                            <img src="images/homebianca" alt="icona targa" width="50" height="50" class="img-default">
-                            <img src="images/homeblu" alt="icona targa" width="50" height="50" class="img-hover">
+                            <img src="{% static 'hello/images/homebianca.png' %}" alt="icona targa" width="50"
+                                height="50" class="img-default">
+                            <img src="{% static 'hello/images/homeblu.png' %}" alt="icona targa" width="50" height="50"
+                                class="img-hover">
                         </div>
                     </div>
                 </a>
@@ -45,12 +48,13 @@
                 </div>
             </div>
             <div class="elemento-menu">
-                <a href="veicolo.php" class="link-bottone">
+                <a href="{% url 'veicolo' %}" class="link-bottone">
                     <div class="contenitore-immagine">
                         <div class="cambio-immagine">
-                            <img src="images/veicolobianco" alt="icona targa" width="50" height="50"
-                                class="img-default">
-                            <img src="images/veicoloblu" alt="icona targa" width="50" height="50" class="img-hover">
+                            <img src="{% static 'hello/images/veicolobianco.png' %}" alt="icona targa" width="50"
+                                height="50" class="img-default">
+                            <img src="{% static 'hello/images/veicoloblu.png' %}" alt="icona targa" width="50"
+                                height="50" class="img-hover">
                         </div>
                     </div>
                 </a>
@@ -59,11 +63,13 @@
                 </div>
             </div>
             <div class="elemento-menu">
-                <a href="targa.php" class="link-bottone">
+                <a href="{% url 'targa' %}" class="link-bottone">
                     <div class="contenitore-immagine">
                         <div class="cambio-immagine">
-                            <img src="images/targabianca" alt="icona targa" width="50" height="50" class="img-default">
-                            <img src="images/targablu" alt="icona targa" width="50" height="50" class="img-hover">
+                            <img src="{% static 'hello/images/targabianca.png' %}" alt="icona targa" width="50"
+                                height="50" class="img-default">
+                            <img src="{% static 'hello/images/targablu.png' %}" alt="icona targa" width="50" height="50"
+                                class="img-hover">
                         </div>
                     </div>
                 </a>
@@ -72,12 +78,13 @@
                 </div>
             </div>
             <div class="elemento-menu">
-                <a href="revisione.php" class="link-bottone">
+                <a href="{% url 'revisione' %}" class="link-bottone">
                     <div class="contenitore-immagine">
                         <div class="cambio-immagine">
-                            <img src="images/revisionebianca" alt="icona targa" width="50" height="50"
-                                class="img-default">
-                            <img src="images/revisioneblu" alt="icona targa" width="50" height="50" class="img-hover">
+                            <img src="{% static 'hello/images/revisionebianca.png' %}" alt="icona targa" width="50"
+                                height="50" class="img-default">
+                            <img src="{% static 'hello/images/revisioneblu.png' %}" alt="icona targa" width="50"
+                                height="50" class="img-hover">
                         </div>
                     </div>
                 </a>
@@ -147,6 +154,8 @@
         </div>
     </div>
     </div>
+
+    {% include './footer.html' %}
 </body>
 
 </html>
