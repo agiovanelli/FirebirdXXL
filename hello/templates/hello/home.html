@@ -15,10 +15,10 @@
     <header>
         <div class="header-container">
             <div id="cambiologo">
-                <a href="home.html"><img src="{% static 'hello/images/fenicebianca.png' %}" alt="icona fenice"
-                        class="icona" id="default"></a>
-                <a href="home.html"><img src="{% static 'hello/images/fenicearancione.png' %}" alt="icona fenice"
-                        class="icona" id="hover"></a>
+                <a href="{% url 'home.html' %}"><img src="{% static 'hello/images/fenicebianca.png' %}"
+                        alt="icona fenice" class="icona" id="default"></a>
+                <a href="{% url 'home.html' %}"><img src="{% static 'hello/images/fenicearancione.png' %}"
+                        alt="icona fenice" class="icona" id="hover"></a>
             </div>
             <h1 class="titolo">FirebirdXXL</h1>
         </div>
@@ -52,7 +52,7 @@
     <nav>
         <div class="centrato">
             <div class="menu-item">
-                <a href="veicolo.html" class="button">
+                <a href="{% url 'veicolo.html' %}" class="button">
                     <div class="image-container">
                         <div id="cambio">
                             <img src="{% static 'hello/images/veicolobianco.png' %}" alt="icona veicolo" width="50"
@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div class="menu-item">
-                <a href="targa.html" class="button">
+                <a href="{% url 'targa.html' %}" class="button">
                     <div class="image-container">
                         <div id="cambio">
                             <img src="{% static 'hello/images/targabianca.png' %}" alt="icona targa" width="50"
@@ -82,7 +82,7 @@
                 </div>
             </div>
             <div class="menu-item">
-                <a href="revisione.html" class="button">
+                <a href="{% url 'revisione.html' %}" class="button">
                     <div class="image-container">
                         <div id="cambio">
                             <img src="{% static 'hello/images/revisionebianca.png' %}" alt="icona revisione" width="50"

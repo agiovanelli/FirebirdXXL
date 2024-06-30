@@ -4,23 +4,19 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 def home(request):
-    return HttpResponse("Hello, Django!")
+    return render(request,'hello/home.html')
 
-def hello_there(request):
-    print(request.build_absolute_uri()) #optional
-    return render(
-        request,
-        'hello/hello_there.html',
-        {
-            'date': datetime.now()
-        }
-    )
+def veicolo(request):
+    return render(request,'hello/veicolo.html')
 
-def home(request):
-    return render(
-        request,
-        'hello/home.html'
-    )
+def targa(request):
+    return render(request,'hello/targa.html')
+
+def revisione(request):
+    return render(request,'hello/revisione.html')
+
+def aggiungi(request):
+    return render(request,'hello/aggiungi.html')
 
     
 # Create your views here.
