@@ -1,13 +1,10 @@
-import re
-from django.utils.timezone import datetime
-from django.http import HttpResponse
 from django.shortcuts import render
 
 def home(request):
     return render(request,'hello/home.html')
 
 def veicolo(request):
-    return render(request,'hello/veicolo.html')
+    return render(request, 'hello/veicolo.html')
 
 def targa(request):
     return render(request,'hello/targa.html')
@@ -17,6 +14,3 @@ def revisione(request):
 
 def aggiungi(request):
     return render(request,'hello/aggiungi.html')
-
-    
-# Create your views here.
