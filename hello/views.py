@@ -4,7 +4,7 @@ def home(request):
     return render(request,'hello/home.html')
 
 def veicolo(request):
-    return render(request, 'hello/veicolo.html')
+    return render(request,'hello/veicolo.html')
 
 def targa(request):
     return render(request,'hello/targa.html')
