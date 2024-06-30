@@ -1,4 +1,3 @@
-/* Reset del margine e del padding */
 * {
     margin: 0;
     padding: 0;
@@ -10,7 +9,9 @@ body {
     padding: 0;
     font-family: Arial, sans-serif;
     background-color: white;
+    overflow-y: auto;
 }
+
 
 header {
     display: flex;
@@ -33,8 +34,7 @@ header {
     left: 0;
 }
 
-#cambiologo
-{   
+#cambiologo {
     position: relative;
     display: inline-block;
     margin-left: 90px;
@@ -70,6 +70,8 @@ header {
 #cambio {
     position: relative;
     display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 #cambio img {
@@ -103,19 +105,18 @@ header {
     font-size: 3em;
     text-align: center;
     flex-grow: 1;
-    color:white;
+    color: white;
 }
 
 #filtro {
     background-color: rgb(43, 43, 143);
     color: white;
-    padding: 20px; /* Spaziatura interna */
-    width: 225px; /* Larghezza */
-    height: 90vh; /* Altezza del viewport */
-    float: left; /* Flottante a sinistra */
+    padding: 20px;
+    width: 225px;
+    height: 130vh;
+    float: left;
     border: 1px solid rgb(40, 40, 131);
 }
-
 
 #filtro .contenitore-icone {
     display: flex;
@@ -124,52 +125,48 @@ header {
     justify-content: center;
 }
 
-/* Stile per le icone */
 #filtro .iconeHome {
-    margin-top: 20px; /* Maggiore spaziatura superiore */
-    margin-bottom: 40px; /* Maggiore spaziatura inferiore */
-    width: 60px; /* Larghezza aumentata delle icone */
-    height: 60px; /* Altezza aumentata delle icone */
-    cursor: pointer; /* Aggiunge il cursore puntatore */
+    margin-top: 20px;
+    margin-bottom: 40px;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
 }
 
-/* Rimuove lo spazio dopo l'ultima immagine */
 #filtro .iconeHome:last-child {
-    margin-bottom: 0; /* Rimuove il margine inferiore dall'ultima immagine */
+    margin-bottom: 0;
 }
 
 nav {
-    background-color: white; /* Sfondo bianco */
-    padding: 20px; /* Spaziatura interna */
-    width: 250px; /* Larghezza */
-    height: 83vh; /* Altezza del viewport */
-    float: right; /* Flottante a destra */
+    background-color: white;
+    padding: 20px;
+    width: 250px;
+    height: 130vh;
+    float: right;
 }
 
 nav .centrato h2 {
-    color: white !important; /* Testo bianco */
+    color: white !important;
 }
 
-/* Stile per i bottoni nel nav */
 .menu-item {
     background: rgb(43, 43, 143);
-    position: relative; /* Rendi relativo il contenitore del bottone */
-    display: inline-block; /* Imposta il display a inline-block per posizionare il menu rispetto al bottone */
-    border: 1px solid white; /* Bordo bianco */
-    padding: 20px; /* Spaziatura interna */
-    margin-bottom: 25px; /* Aumenta lo spazio inferiore tra i bottoni */
-    margin-top: 60px; /* Aggiungi margine superiore */
-    text-align: center; /* Allineamento centrato */
-    cursor: pointer; /* Mostra il cursore come puntatore */
-    border-radius: 10px; /* Arrotonda gli angoli */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra */
-    transition: background-color 0.3s, transform 0.3s; /* Transizione per sfondo e trasformazione */
-    display: flex; /* Usa Flexbox per allineare gli elementi */
-    align-items: center; /* Allinea verticalmente gli elementi al centro */
+    position: relative;
+    display: inline-block;
+    border: 1px solid white;
+    padding: 20px;
+    margin-bottom: 25px;
+    margin-top: 60px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
 }
 
 .image-container {
-    margin-right: 10px; /* Aggiunge spazio a destra dell'immagine */
+    margin-right: 10px;
 }
 
 .button {
@@ -178,57 +175,64 @@ nav .centrato h2 {
     cursor: pointer;
     outline: none;
     display: block;
-    width: 100%; /* Imposta la larghezza al 100% del contenitore del bottone */
-    height: 100%; /* Imposta l'altezza al 100% del contenitore del bottone */
+    width: 100%;
+    height: 100%;
     text-align: center;
-    padding: 20px; /* Spaziatura interna per matchare lo stile del bottone */
+    padding: 20px;
 }
 
 .menu-item .dropdown-content {
-    display: none; /* Nascondi il menu a discesa di default */
-    position: absolute; /* Rendi assoluta la posizione del menu */
-    background-color: #f9f9f9; /* Colore di sfondo del menu */
-    min-width: 120px; /* Riduci la larghezza minima del menu */
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); /* Ombra del menu */
-    z-index: 1; /* Imposta un indice z per posizionare il menu sopra gli altri elementi */
-    top: 100%; /* Posiziona il menu a discesa sotto il bottone */
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 120px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    top: 100%;
     left: 50%;
-    transform: translateX(-50%); /* Centra il menu a discesa sotto il bottone */
+    transform: translateX(-50%);
 }
 
 .menu-item:hover .dropdown-content {
-    display: block; /* Mostra il menu a discesa quando passi sopra il bottone */
-}
-
-.menu-item .dropdown-content span {
-    color: black; /* Colore del testo nel menu */
-    padding: 5px 7px; /* Riduci lo spazio interno del testo nel menu */
-    text-decoration: none; /* Rimuovi la sottolineatura del testo nel menu */
-    display: block; /* Rendi il testo nel menu un blocco */
-    cursor: default; /* Imposta il cursore come predefinito */
-}
-
-.menu-item:hover{
-    background-color: rgb(207, 75, 27); /* Cambia il colore di sfondo al passaggio del mouse */
-}
-
-.button:hover{
-    background-color: rgb(207, 75, 27);
-}
-
-/* Mostra il menu a tendina quando il bottone è in focus */
-.button:focus + .dropdown-content,
-.button:focus-within + .dropdown-content {
     display: block;
 }
 
-/* Stile per il contenuto/risultati */
+.menu-item .dropdown-content span {
+    color: black;
+    padding: 5px 7px;
+    text-decoration: none;
+    display: block;
+    cursor: default;
+}
+
+.menu-item:hover,
+.menu-item:hover .button,
+.menu-item:hover .image-container {
+    background-color: rgb(207, 75, 27);
+}
+
+.button:focus+.dropdown-content,
+.button:focus-within+.dropdown-content {
+    display: block;
+}
+
 #contenuto {
-    background-color: #ffffff; /* Bianco */
-    color: black; /* Nero */
-    margin: 10px 230px; /* Margine laterale per far spazio a filtro e nav */
+    background-color: #ffffff;
+    color: black;
+    margin: 0 230px;
     flex: 1;
 }
+
+#contenutoHome {
+    background-color: #ffffff;
+    color: black;
+    padding: 30px;
+    margin: 0 230px;
+    flex: 1;
+    overflow-y: auto;
+    max-height: calc(100vh - 140px);
+}
+
 
 .scorrevole {
     max-height: 88%;
@@ -236,17 +240,16 @@ nav .centrato h2 {
     border: 1px solid #ccc;
 }
 
-/* Stile per il footer */
 footer {
-    background-color: rgb(207, 75, 27); /* Colore del footer */
-    color: white; /* Testo bianco */
-    padding: 10px; /* Spaziatura interna */
-    text-align: center; /* Allineamento centrato */
-    position: fixed; /* Posizionamento fisso */
-    width: 100%; /* Larghezza del 100% della finestra */
-    bottom: 0; /* Fissa il footer al fondo */
-    left: 0; /* Allinea il footer a sinistra */
-    z-index: 1000; /* Assicura che il footer sia sopra il contenuto */
+    background-color: rgb(207, 75, 27);
+    color: white;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
 }
 
 table {
@@ -262,6 +265,12 @@ thead {
     vertical-align: middle;
     unicode-bidi: isolate;
     border-color: inherit;
+    position: -webkit-sticky;
+    position: sticky;
+}
+
+thead th {
+    height: 50px;
 }
 
 tbody {
@@ -277,10 +286,10 @@ tbody {
 }
 
 .testata {
-    color: white;
-    height: 40px;
-    position: sticky;
     background: #5b6be5;
+    color: white;
+    position: -webkit-sticky;
+    position: sticky;
     top: 0;
     z-index: 1;
 }
@@ -310,7 +319,8 @@ tr {
     cursor: pointer;
 }
 
-html, body {
+html,
+body {
     overflow: hidden;
     height: 100%;
     margin: 0;
@@ -343,19 +353,16 @@ html, body {
     text-decoration: underline;
 }
 
-/* Cambio colore della riga al passaggio del mouse */
 #contenuto .revisione-row:hover {
-    background-color: rgb(248, 140, 101); /* Cambia il colore di sfondo al passaggio del mouse */
+    background-color: rgb(248, 140, 101);
 }
 
-/* Cambio colore della riga al passaggio del mouse */
 #contenuto .targa-row:hover {
-    background-color: rgb(248, 140, 101); /* Cambia il colore di sfondo al passaggio del mouse */
+    background-color: rgb(248, 140, 101);
 }
 
-/* Cambio colore della riga al passaggio del mouse */
 #contenuto .tabella tbody tr:hover {
-    background-color: rgb(248, 140, 101); /* Cambia il colore di sfondo al passaggio del mouse */
+    background-color: rgb(248, 140, 101);
 }
 
 td.imgcentr {
@@ -374,10 +381,157 @@ td.imgcentr a img {
     margin: auto;
 }
 
-.sort{
+.elemento-menu {
+    background: rgb(43, 43, 143);
+    position: relative;
+    display: inline-block;
+    border: 1px solid white;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 60px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contenitore-immagine {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cambio-immagine {
+    position: relative;
+    width: 50px;
+    height: 50px;
+}
+
+.cambio-immagine img {
+    position: absolute;
+    top: 0;
+    left: 50px;
+}
+
+.cambio-immagine .img-hover {
+    opacity: 0;
+}
+
+.elemento-menu:hover .cambio-immagine .img-default {
+    opacity: 0;
+}
+
+.elemento-menu:hover .cambio-immagine .img-hover {
+    opacity: 1;
+}
+
+.link-bottone {
+    background: rgb(43, 43, 143);
+    border: none;
+    cursor: pointer;
+    outline: none;
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding: 10px;
+}
+
+.elemento-menu .menu-dropdown {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 120px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.elemento-menu:hover .menu-dropdown {
+    display: block;
+}
+
+.elemento-menu .menu-dropdown span {
+    color: black;
+    padding: 5px 7px;
+    text-decoration: none;
+    display: block;
+    cursor: default;
+}
+
+.elemento-menu:hover,
+.elemento-menu:hover .link-bottone,
+.elemento-menu:hover .contenitore-immagine {
+    background-color: rgb(207, 75, 27);
+}
+
+.link-bottone:focus+.menu-dropdown,
+.link-bottone:focus-within+.menu-dropdown {
+    display: block;
+}
+
+.sort {
     height: 20px;
     width: 20px;
     float: right;
     margin-right: 10px;
     cursor: pointer;
+}
+
+#linkt {
+    color: rgb(43, 43, 143);
+}
+
+#linkt:hover {
+    color: rgb(207, 75, 27);
+}
+
+.coloreTitolo {
+    color: rgb(207, 75, 27);
+    ;
+}
+
+.coloreScritta {
+    color: rgb(43, 43, 143);
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .titolo {
+        font-size: 2em;
+    }
+
+    #filtro,
+    nav {
+        width: 100%;
+        max-width: none;
+        float: none;
+    }
+
+    #contenuto,
+    #contenutoHome {
+        margin: 0;
+        padding: 15px;
+    }
+}
+
+.ultimocont {
+    overflow-y: auto;
+}
+
+#contenutoAggiungi {
+    padding: 20px;
 }
