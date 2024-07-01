@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{% static 'hello/css/style.css' %}">
 </head>
 
-<body onload="visualeAggiungi()">
+<body>
     <header>
         <div class="header-container">
             <div id="cambiologo">
@@ -98,8 +98,10 @@
     <div id="contenutoAggiungi">
         <div id="contenuto">
             <div class="centrato">
-                <form id="formRicerca" method="POST" onsubmit="inviaForm()">
-                    <div id="visualVeicolo" style="display: none;">
+                <form id="formRicerca" method="POST" action="{% url 'aggiungi' %}">
+                    {% csrf_token %}
+                    {% if request.GET.content == '1' %}
+                    <div id="visualVeicolo">
                         <h3>Per aggiungere un nuovo veicolo compila il modulo qua sotto:</h3>
                         <br><label for="richiesta">Numero telaio</label><br>
                         <input type="text" id="numTelaio" name="numTelaio" /><label for="text"> (inserire 17
@@ -111,7 +113,8 @@
                         <label for="richiesta">Data di produzione</label><br>
                         <input type="date" id="dataProd" name="dataProd" /><br><br>
                     </div>
-                    <div id="visualTarga" style="display: none;">
+                    {% elif request.GET.content == '2' %}
+                    <div id="visualTarga">
                         <h3>Per aggiungere una nuova targa compila il modulo qua sotto:</h3>
                         <br><label for="richiesta">Targa</label><br>
                         <input type="text" id="targa" name="targa" /><label for="text"> (inserire: 2 lettere - 3 numeri
@@ -121,18 +124,20 @@
                         <label for="richiesta">Numero Telaio del Veicolo</label><br>
                         <input type="text" id="telaio" name="telaio" /><br><br>
                     </div>
-                    <div id="visualRevisione" style="display: none;">
+                    {% elif request.GET.content == '3' %}
+                    <div id="visualRevisione">
                         <h3>Per aggiungere una nuova revisione compila il modulo qua sotto:</h3>
                         <br><label for="richiesta">Targa</label><br>
                         <input type="text" id="targa1" name="targa1" /><br><br>
                         <label for="richiesta">Data ultima revisione</label><br>
                         <input type="date" id="dataRev" name="dataRev" /><br><br>
                         <label for="richiesta">Stato</label><br>
-                        <input type="radio" id="AssSi" name="Ass" value="positivo" onchange="spento2(this)">
+                        <input type="radio" id="AssSi" name="mostra_div" value="true">
                         <label for="AssSi">Superata</label><br>
-                        <input type="radio" id="AssNo" name="Ass" value="negativo" onchange="spento2(this)">
+                        <input type="radio" id="AssNo" name="mostra_div" value="false">
                         <label for="AssNo">Non superata</label><br>
-                        <div id="opzioneVisuale2" style="display: none;">
+                        {% if mostra_div %}
+                        <div id="opzioneVisuale2">
                             <br><label for="menu">Seleziona un'opzione</label><br>
                             <select name="menu" id="menu">
                                 <option value="NULL"></option>
@@ -146,7 +151,9 @@
                                 <option value="Parabrezza scheggiato">Parabrezza scheggiato</option>
                             </select><br>
                         </div><br>
+                        {% endif %}
                     </div>
+                    {% endif %}
                     <input type="hidden" id="tipoInput" name="tipo" value="">
                     <input type="submit" value="Aggiungi" />
                 </form><br>

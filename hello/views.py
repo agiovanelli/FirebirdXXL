@@ -13,4 +13,15 @@ def revisione(request):
     return render(request,'hello/revisione.html')
 
 def aggiungi(request):
-    return render(request,'hello/aggiungi.html')
+    mostra_div = False
+
+    if request.method == 'POST':
+        if 'mostra_div' in request.POST and request.POST['mostra_div'] == 'true':
+            mostra_div = True
+    
+    context = {
+        'mostra_div': mostra_div
+    }
+
+    return render(request, 'hello/aggiungi.html', context)
+
