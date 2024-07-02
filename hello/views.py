@@ -1,27 +1,21 @@
 from django.shortcuts import render
+from .models import Veicolo, Targa, Revisione
 
 def home(request):
     return render(request,'hello/home.html')
 
 def veicolo(request):
-    return render(request,'hello/veicolo.html')
+    veicoli = Veicolo.objects.all()
+    return render(request,'hello/veicolo.html') #{'veicoli': veicoli}
 
 def targa(request):
-    return render(request,'hello/targa.html')
+    targhe = Targa.objects.all()
+    return render(request,'hello/targa.html') #{'targhe': targhe}
 
 def revisione(request):
-    return render(request,'hello/revisione.html')
+    revisioni = Revisione.objects.all()
+    return render(request,'hello/revisione.html') #{'revisioni': revisioni}
 
 def aggiungi(request):
-    mostra_div = False
-
-    if request.method == 'POST':
-        if 'mostra_div' in request.POST and request.POST['mostra_div'] == 'true':
-            mostra_div = True
-    
-    context = {
-        'mostra_div': mostra_div
-    }
-
-    return render(request, 'hello/aggiungi.html', context)
+    return render(request, 'hello/aggiungi.html')
 

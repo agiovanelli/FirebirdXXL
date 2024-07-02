@@ -8,6 +8,33 @@
     <title>Targhe</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'hello/css/style.css' %}">
+    <style>
+        #opzioneVisuale {
+            display: none;
+        }
+
+        #targaRestituita:checked~#opzioneVisuale {
+            display: block;
+        }
+
+        .buttonP {
+            display: inline-block;
+            padding: 5px 35px;
+            font-size: 15px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #27c83f;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .buttonP:hover {
+            background-color: #ff9900
+        }
+    </style>
 </head>
 
 <body>
@@ -26,24 +53,25 @@
     <div id="filtro">
         <div class="centrato">
             <h2 style="text-align: center;">Ricerca</h2><br>
-            <form id="formRicerca" method="post" onSubmit="return creazioneQuerytarga();">
+            <form id="formRicerca" method="post">
+                {% csrf_token %}
                 <label for="richiesta">Targa</label><br>
                 <input type="text" id="targa" name="testo" /><br><br>
                 <label for="richiesta">Data di emissione</label><br>
                 <input type="date" id="dataEm"><br><br>
                 <label for="richiesta">Stato della targa</label><br>
-                <input type="radio" id="targaAttiva" name="attivita" value="1" onchange="spento(this)">
+                <input type="radio" id="targaAttiva" name="attivita" value="1">
                 <label for="richiesta">Attiva</label><br>
-                <input type="radio" id="targaRestituita" name="attivita" value="0" onchange="spento(this)">
+                <input type="radio" id="targaRestituita" name="attivita" value="0">
                 <label for="richiesta">Restituita</label><br>
-                <div style="display: none;" id="opzioneVisuale">
+                <div id="opzioneVisuale">
                     <br><label for="richiesta">Data restituzione</label><br>
                     <input type="date" id="dataRest" name="testo" /><br>
                 </div><br>
                 <input style="width: 50%;" type="submit" value="Azzera filtri" />
             </form><br>
             <div>
-                <a href="{% url 'aggiungi' %}?content=2" class="button">Aggiungi targa</a>
+                <a href="{% url 'aggiungi' %}?content=2" class="buttonP">Aggiungi targa</a>
             </div>
         </div>
     </div>
@@ -96,6 +124,32 @@
             </div>
         </div>
     </nav>
+
+    <div class="contenuto">
+        <div class="centrato">
+            <h1>Lista Targhe</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Numero Telaio</th>
+                        <th>Marca</th>
+                        <th>Modello</th>
+                        <th>Data di Produzione</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- {% for targa in targhe %}
+                    <tr>
+                        <td>{{ veicolo.numero_telaio }}</td>
+                        <td>{{ veicolo.marca }}</td>
+                        <td>{{ veicolo.modello }}</td>
+                        <td>{{ veicolo.data_produzione }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody> -->
+            </table>
+        </div>
+    </div>
 
     {% include './footer.html' %}
 </body>

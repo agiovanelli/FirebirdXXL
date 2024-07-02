@@ -9,6 +9,15 @@
     <title>Aggiungi</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'hello/css/style.css' %}">
+    <style>
+        #opzioneVisuale2 {
+            display: none;
+        }
+
+        #AssNo:checked~#opzioneVisuale2 {
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
@@ -98,7 +107,7 @@
     <div id="contenutoAggiungi">
         <div id="contenuto">
             <div class="centrato">
-                <form id="formRicerca" method="POST" action="{% url 'aggiungi' %}">
+                <form id="formRicerca" method="POST">
                     {% csrf_token %}
                     {% if request.GET.content == '1' %}
                     <div id="visualVeicolo">
@@ -136,7 +145,6 @@
                         <label for="AssSi">Superata</label><br>
                         <input type="radio" id="AssNo" name="mostra_div" value="false">
                         <label for="AssNo">Non superata</label><br>
-                        {% if mostra_div %}
                         <div id="opzioneVisuale2">
                             <br><label for="menu">Seleziona un'opzione</label><br>
                             <select name="menu" id="menu">
@@ -151,7 +159,6 @@
                                 <option value="Parabrezza scheggiato">Parabrezza scheggiato</option>
                             </select><br>
                         </div><br>
-                        {% endif %}
                     </div>
                     {% endif %}
                     <input type="hidden" id="tipoInput" name="tipo" value="">

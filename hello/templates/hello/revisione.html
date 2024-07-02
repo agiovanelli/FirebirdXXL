@@ -8,6 +8,33 @@
     <title>Revisioni</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'hello/css/style.css' %}">
+    <style>
+        #opzioneVisuale2 {
+            display: none;
+        }
+
+        #AssNo:checked~#opzioneVisuale2 {
+            display: block;
+        }
+
+        .buttonP {
+            display: inline-block;
+            padding: 5px 35px;
+            font-size: 15px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #27c83f;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .buttonP:hover {
+            background-color: #ff9900
+        }
+    </style>
 </head>
 
 <body>
@@ -25,17 +52,18 @@
     <div id="filtro">
         <div class="centrato">
             <h2 style="text-align: center;">Ricerca</h2><br>
-            <form id="formRicerca" method="post" onSubmit="return creazioneQuery();">
+            <form id="formRicerca" method="post">
+                {% csrf_token %}
                 <label for="richiesta">Targa</label><br>
                 <input type="text" id="targa" /><br><br>
                 <label for="richiesta">Data ultima revisione</label><br>
                 <input type="date" id="dataRev" name="dataRev" /><br><br>
                 <label for="richiesta">Superata</label><br>
-                <input type="radio" id="AssSi" name="Ass" value="positivo" onchange="spento2(this)">
+                <input type="radio" id="AssSi" name="Ass" value="positivo">
                 <label for="AssSi">Si</label><br>
-                <input type="radio" id="AssNo" name="Ass" value="negativo" onchange="spento2(this)">
+                <input type="radio" id="AssNo" name="Ass" value="negativo">
                 <label for="AssNo">No</label><br>
-                <div id="opzioneVisuale2" style="display: none;">
+                <div id="opzioneVisuale2">
                     <br><label for="menu">Seleziona un'opzione</label><br>
                     <select style="width: 100%;" name="menu" id="menu">
                         <option value="NULL"></option>
@@ -51,7 +79,7 @@
                 <input style="width: 50%;" type="submit" value="Azzera filtri" />
             </form><br>
             <div>
-                <a href="{% url 'aggiungi' %}?content=3" class="button">Aggiungi revisione</a>
+                <a href="{% url 'aggiungi' %}?content=3" class="buttonP">Aggiungi revisione</a>
             </div>
         </div>
     </div>
@@ -104,6 +132,34 @@
             </div>
         </div>
     </nav>
+
+    <div class="contenuto">
+        <div class="centrato">
+            <h1>Lista Revisioni</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Targa</th>
+                        <th>Numero Revisione</th>
+                        <th>Data ultima revisione</th>
+                        <th>Stato</th>
+                        <th>Motivazione</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- {% for revisione in revisioni %}
+                    <tr>
+                        <td>{{ revisione.targa }}</td>
+                        <td>{{ revisione.numero_revisione }}</td>
+                        <td>{{ revisione.data_revisione }}</td>
+                        <td>{{ revisione.stato }}</td>
+                        <td>{{ revisione.motivazione }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody> -->
+            </table>
+        </div>
+    </div>
 
     {% include './footer.html' %}
 </body>
