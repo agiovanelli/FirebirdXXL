@@ -9,6 +9,7 @@
     <title>Home</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'hello/css/style.css' %}">
+    <!--qui metti i css e js bootstrap, con la stessasintassi cambi solo il percorso e il nome del file-->
 </head>
 
 <body>
@@ -20,7 +21,7 @@
                 <a href="{% url 'home' %}"><img src="{% static 'hello/images/fenicearancione.png' %}" alt="icona fenice"
                         class="icona" id="hover"></a>
             </div>
-            <h1 class="titolo">FirebirdXXL</h1>
+            <h1 class="titolo">FirebirdXXL 2.0</h1>
         </div>
     </header>
 
@@ -104,16 +105,35 @@
             <h1>Cos'è FirebirdXXL</h1>
             <p>Firebird è un sistema della Motorizzazione Civile per gestire i veicoli e le targhe.</p>
             <p>XXL perché ci piace fare le cose in grande.</p><br><br>
+
             <h2>Come si effettua la ricerca</h2>
             <p>Sulla destra vi sono tre bottoni: Veicoli, Targhe e Revisioni</p>
             <p>Cliccando su ognuno dei pulsanti verrete portati in una pagina dove potrete cercare, ed eventualmente
                 aggiungere, l'oggetto della vostra ricerca.</p>
-            <p>Sulla sinistra di ogni pagina ci sono dei filtri che vi faciliteranno la ricerca.</p><br><br>
+            <p>Sulla sinistra di ogni pagina ci sono dei filtri che vi faciliteranno la ricerca.</p>
+            <p>È inoltre possibile ordinare in modo crescente cliccando una volta sul simbolo accanto alla nome della
+                colonna indicata e ordinarlo in modo decrescente cliccando due volte sulla stessa icona.</p><br><br>
+
             <h2>I dati</h2>
             <p>Ogni pagina possiede un database con più di mille elementi contenenti le più disparate combinazioni.</p>
             <br><br>
-            <h2>Perché utilizzare il nostro sito</h2>
-            <p>La vera domanda è, perché NON utilizzare il nostro sito.</p>
+
+            <h2>CRUD</h2>
+            <p>Per ogni tabella sono possibili tutte le pratiche <b>CRUD</b>:</p><br>
+            <p><b>C</b> - Creazione di un nuovo dato (veicolo, targa e revisione);</p>
+            <p><b>R</b> - Tutte le tabella sono consultabili nelle apposite pagine;</p>
+            <p><b>U</b> - Tutti i dati nelle tabelle possono essere modificati (tranne alcune eccezioni che abbiamo
+                volutamente scelto di non poter modificare);</p>
+            <p><b>D</b> - Tutti i dati nelle tabelle sono eliminabili.</p><br><br>
+
+            <h2>Decisioni intraprese</h2><br>
+            <p>- Nelle pagine di <a href="{% url 'veicolo' %}">veicolo</a> e <a
+                    href="{% url 'revisione' %}">revisione</a> non è possibile modificare la voce "Targa Attuale" /
+                "Targa", data la presenza di una tabella apposita;</p><br>
+            <p>- Nella pagina di <a href="{% url 'revisione' %}">revisione</a> non è possibile modificare la voce
+                "Numero revisione" in quanto è un valore che si aggiorna automaticamente;</p><br>
+            <p>- Per ogni pagina nel caso si volesse modificare qualche voce sono stati creati dei controlli per il buon
+                inserimento (logico) delle modifiche.</p>
         </div>
     </div>
 
