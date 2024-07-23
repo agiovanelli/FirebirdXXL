@@ -140,13 +140,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for targa in targhe %}
+                    {% for targa in targhe_dettagli %}
                     <tr>
-                        <td>{{ targhe_dettagli.targa }}</td>
-                        <td>{{ targhe_dettagli.data_emissione }}</td>
+                        <td>{{targhe_dettagli.targa }}</td>
+                        <td>{{targhe_dettagli.data_emissione }}</td>
                         <td>{{targhe_dettagli.stato}}</td>
-                        <td>{{ targhe_dettagli.numero_telaio }}</td>
-                        <td>{{ targhe_dettagli.data_restituzione }}</td>
+                        <td>{{targhe_dettagli.numero_telaio }}</td>
+                        <td>{{targhe_dettagli.data_restituzione }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
