@@ -10,7 +10,18 @@ def veicolo(request):
 
 def targa(request):
     targhe = Targa.objects.all()
-    return render(request,'hello/targa.html' ,{'targhe': targhe})
+    targhe_dettagli = []
+
+    for t in targhe:
+        targa_info= {
+            'targa': t.targa,
+            'data_emissione' : t.data_emissione,
+            'stato': 'Attiva' if hasattr(t,'targaattiva') else 'Restituita',
+            'numero_telaio': t.targaattiva.veicolo.nummero_telaio if hasattr (t, 'targaattiva') else None,
+            'data_restituzione': t.targarestituita.data_restituzione if hasattr(t, 'targarestituita') else None
+        }
+        targhe_dettagli.append(targa_info)
+    return render(request,'hello/targa.html' ,{'targhe_dettagli': targhe_dettagli})
 
 def revisione(request):
     revisioni = Revisione.objects.all()

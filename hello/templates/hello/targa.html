@@ -132,19 +132,21 @@
             <table>
                 <thead>
                     <tr>
+                        <th>Targa</th>
+                        <th>Data Emissione</th>
+                        <th>Stato</th>
                         <th>Numero Telaio</th>
-                        <th>Marca</th>
-                        <th>Modello</th>
-                        <th>Data di Produzione</th>
+                        <th>Data di Restituzione</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for targa in targhe %}
                     <tr>
-                        <td>{{ veicolo.numero_telaio }}</td>
-                        <td>{{ veicolo.marca }}</td>
-                        <td>{{ veicolo.modello }}</td>
-                        <td>{{ veicolo.data_produzione }}</td>
+                        <td>{{ targa.targa }}</td>
+                        <td>{{ targa.data_emissione }}</td>
+                        <td>{{targa.stato}}</td>
+                        <td>{{ targa.numero_telaio }}</td>
+                        <td>{{ targa.data_restituzione }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
