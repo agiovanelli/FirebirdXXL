@@ -6,15 +6,15 @@ def home(request):
 
 def veicolo(request):
     veicoli = Veicolo.objects.all()
-    return render(request,'hello/veicolo.html') #{'veicoli': veicoli}
+    return render(request,'hello/veicolo.html' ,{'veicoli': veicoli})
 
 def targa(request):
     targhe = Targa.objects.all()
-    return render(request,'hello/targa.html') #{'targhe': targhe}
+    return render(request,'hello/targa.html' ,{'targhe': targhe})
 
 def revisione(request):
     revisioni = Revisione.objects.all()
-    return render(request,'hello/revisione.html') #{'revisioni': revisioni}
+    return render(request,'hello/revisione.html' ,{'revisioni': revisioni})
 
 def aggiungi(request):
     return render(request, 'hello/aggiungi.html')
