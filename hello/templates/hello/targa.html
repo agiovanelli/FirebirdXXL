@@ -54,7 +54,7 @@
     <div id="filtro">
         <div class="centrato">
             <h2 style="text-align: center;">Ricerca</h2><br>
-            <form id="formRicerca" method="post">
+            <form id="formRicerca" method="get">
                 {% csrf_token %}
                 <label for="richiesta">Targa</label><br>
                 <input type="text" id="targa" name="testo" /><br><br>
@@ -153,7 +153,49 @@
             </table>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            function fetchTarghe() {
+                var targa = $('#targa').val();
+                var dataEmissione = $('dataEm').val();
+                var stato = $('input[name="stato"]:checked').val();
 
+                $.ajax({
+                    url: '{% url "filtra_targhe" %}',
+                    data: {
+                        'targa': targa,
+                        'data_emissione': dataEmissione,
+                        'stato': stato,
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        var targhe = data.targhe;
+                        var tbody = $('#tabella-targhe');
+                        tbody.empty();
+                        for (var i = 0; i < targhe.length; i++) {
+                            var targa = targhe[i];
+                            var row = '<tr>' +
+                                '<td>' + targa.targa + '</td>' +
+                                '<td>' + targa.data_emissione + '</td>' +
+                                '<td>' + targa.stato + '</td>' +
+                                '<td>' + (targa.numero_telaio || '') + '</td>' +
+                                '<td>' + (targa.data_restituzione || '') + '</td>' +
+                                '</tr>';
+                            tbody.append(row);
+                        }
+                    }
+                });
+            }
+            $('#targa, #dataEm, input[name = "stato"]').on('input change', fetchTarghe);
+            $('#azzeraFiltri').on('click', function () {
+                $('#targa').val('');
+                $('dataEm').val('');
+                $('input[name = stato]').prop('checkeed', false);
+                fetchTarghe()
+            });
+            fetchTarge();
+        });
+    </script>
     {% include './footer.html' %}
 </body>
 
