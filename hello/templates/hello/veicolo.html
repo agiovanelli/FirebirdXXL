@@ -108,7 +108,7 @@
                     </div>
                 </a>
                 <div class="dropdown-content">
-                    <span>Revisioni</span>
+                    <span>Veicoli</span>
                 </div>
             </div>
         </div>
@@ -126,7 +126,7 @@
                         <th>Data di Produzione</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tabella-veicoli">
                     {% for veicolo in veicoli %}
                     <tr>
                         <td>{{ veicolo.numero_telaio }}</td>
@@ -139,7 +139,59 @@
             </table>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function fetchVeicoli() {
+                var numero_telaio = $('#numTelaio').val();
+                var marca = $('#marca').val();
+                var modello = $('#modello').val();
+                var dataProd = $('#dataProd').val();
 
+                $.ajax({
+                    url: '{% url "filtra_veicoli" %}',
+                    data: {
+                        'numero_telaio': numero_telaio,
+                        'marca': marca,
+                        'modello': modello,
+                        'data_produzione': dataProd,
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        var veicoli = data.veicoli;
+                        var tbody = $('#tabella-veicoli');
+                        tbody.empty();  // Pulisci il contenuto della tabella
+                        for (var i = 0; i < veicoli.length; i++) {
+                            var veicolo = veicoli[i];
+                            var row = '<tr>' +
+                                '<td>' + veicolo.numero_telaio + '</td>' +
+                                '<td>' + veicolo.marca + '</td>' +
+                                '<td>' + veicolo.modello + '</td>' +
+                                '<td>' + veicolo.data_produzione + '</td>' +
+                                '</tr>';
+                            tbody.append(row);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX Error: ", status, error);
+                        console.error("Response: ", xhr.responseText);
+                    }
+                });
+            }
+
+            $('#numTelaio, #marca, #modello, #dataProd').on('input change', fetchVeicoli);
+
+            $('#azzeraFiltri').on('click', function () {
+                $('#numTelaio').val('');
+                $('#marca').val('');
+                $('#modello').val('');
+                $('#dataProd').val('');
+                fetchVeicoli();
+            });
+
+            fetchVeicoli();  // Inizializza la tabella con tutti i dati
+        });
+    </script>
     {% include './footer.html' %}
 </body>
 

@@ -147,7 +147,7 @@
                         <th>Motivazione</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tabella-revisioni">
                     {% for revisione in revisioni %}
                     <tr>
                         <td>{{ revisione.targa }}</td>
@@ -161,6 +161,59 @@
             </table>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function fetchRevisioni() {
+                var targa = $('#targa').val();
+                var dataRevisione = $('#dataRev').val();
+                //var stato = $('input[name="attivita"]:checked').val();
+                //var dataRestituzione = $('#dataRest').val();
+
+                $.ajax({
+                    url: '{% url "filtra_revisioni" %}',
+                    data: {
+                        'targa': targa,
+                        'data_revisione': dataRevisione,
+                        //'stato': stato,
+                        //'data_restituzione': dataRestituzione,
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        var revisioni = data.revisioni;
+                        var tbody = $('#tabella-revisioni');
+                        tbody.empty();  // Pulisci il contenuto della tabella
+                        for (var i = 0; i < revisioni.length; i++) {
+                            var revisione = revisioni[i];
+                            var row = '<tr>' +
+                                '<td>' + revisione.targa + '</td>' +
+                                '<td>' + revisione.numero_revisione + '</td>' +
+                                '<td>' + revisione.data_revisione + '</td>' +
+                                '<td>' + revisione.stato + '</td>' +
+                                '<td>' + (revisione.motivazione || '') + '</td>' +
+                                '</tr>';
+                            tbody.append(row);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX Error: ", status, error);
+                        console.error("Response: ", xhr.responseText);
+                    }
+                });
+            }
+
+            $('#targa, #dataRev').on('input change', fetchRevisioni);
+
+            $('#azzeraFiltri').on('click', function () {
+                $('#targa').val('');
+                $('#dataRev').val('');
+                fetchRevisioni();
+            });
+
+            fetchRevisioni();  // Inizializza la tabella con tutti i dati
+        });
+    </script>
 
     {% include './footer.html' %}
 </body>

@@ -58,10 +58,66 @@ def filtra_targhe(request):
 
         return JsonResponse({'targhe': targhe_dettagli})
     return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+def filtra_veicoli(request):
+    if request.method == "GET":
+        numero_telaio_query = request.GET.get('numero_telaio', '')
+        marca_query = request.GET.get('marca', '')
+        modello_query = request.GET.get('modello', '')
+        data_produzione_query = request.GET.get('data_produzione', '')
+
+        veicoli = Veicolo.objects.all()
+
+        if numero_telaio_query:
+            veicoli = veicoli.filter(numero_telaio__icontains=numero_telaio_query)
+        if marca_query:
+            veicoli = veicoli.filter(marca__icontains = marca_query)
+        if modello_query:  
+            veicoli = veicoli.filter(modello__icontains=modello_query)
+        if data_produzione_query:
+                veicoli = veicoli.filter(data_produzione=data_produzione_query)
+        veicoli_dettagli = []
+        for veicolo in veicoli:
+            veicolo_info = {
+                'numero_telaio': veicolo.numero_telaio,
+                'marca': veicolo.marca,
+                'modello': veicolo.modello,
+                'data_produzione': veicolo.data_produzione,
+            }
+            veicoli_dettagli.append(veicolo_info)
+        return JsonResponse({'veicoli': veicoli_dettagli})
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
     
 def revisione(request):
     revisioni = Revisione.objects.all()
     return render(request,'hello/revisione.html' ,{'revisioni': revisioni})
+
+def filtra_revisioni(request):
+    if request.method == "GET":
+        targa_query = request.GET.get('targa', '')
+        data_revisione_query = request.GET.get('data_revisione', '')
+        stato_query = request.GET.get('stato', '')
+        #data_produzione_query = request.GET.get('data_produzione', '')
+
+        revisioni = Revisione.objects.all()
+
+        if targa_query:
+            revisioni = revisioni.filter(targa__targa__icontains=targa_query)
+        if data_revisione_query:
+            revisioni = revisioni.filter(revisione__data_revisione = data_revisione_query)
+
+        revisioni_dettagli = []
+        for rev in revisioni:
+            revisione_info = {
+                'targa': rev.targa.targa,
+                'numero_revisione': rev.numero_revisione,
+                'data_revisione': rev.data_revisione,
+                'stato': rev.stato,
+                'motivazione': rev.motivazione
+            }
+            revisioni_dettagli.append(revisione_info)
+        return JsonResponse({'revisioni': revisioni_dettagli})
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 def aggiungi(request):
     return render(request, 'hello/aggiungi.html')
