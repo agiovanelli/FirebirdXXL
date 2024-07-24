@@ -139,7 +139,7 @@
                         <th>Data di Restituzione</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tabella-targhe">
                     {% for targa in targhe_dettagli %}
                     <tr>
                         <td>{{targa.targa }}</td>
@@ -159,7 +159,8 @@
             function fetchTarghe() {
                 var targa = $('#targa').val();
                 var dataEmissione = $('#dataEm').val();
-                var stato = $('input[name="stato"]:checked').val();
+                var stato = $('input[name="attivita"]:checked').val();
+                var dataRestituzione = $('#dataRest').val();
 
                 $.ajax({
                     url: '{% url "filtra_targhe" %}',
@@ -167,12 +168,13 @@
                         'targa': targa,
                         'data_emissione': dataEmissione,
                         'stato': stato,
+                        'data_restituzione': dataRestituzione,
                     },
                     dataType: 'json',
                     success: function (data) {
                         var targhe = data.targhe;
                         var tbody = $('#tabella-targhe');
-                        tbody.empty();
+                        tbody.empty();  // Pulisci il contenuto della tabella
                         for (var i = 0; i < targhe.length; i++) {
                             var targa = targhe[i];
                             var row = '<tr>' +
@@ -184,17 +186,25 @@
                                 '</tr>';
                             tbody.append(row);
                         }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX Error: ", status, error);
+                        console.error("Response: ", xhr.responseText);
                     }
                 });
             }
-            $('#targa, #dataEm, input[name="stato"]').on('input change', fetchTarghe);
+
+            $('#targa, #dataEm, #dataRest, input[name="attivita"]').on('input change', fetchTarghe);
+
             $('#azzeraFiltri').on('click', function () {
                 $('#targa').val('');
                 $('#dataEm').val('');
-                $('input[name="stato"]').prop('checked', false);
+                $('#dataRest').val('');
+                $('input[name="attivita"]').prop('checked', false);
                 fetchTarghe();
             });
-            fetchTarghe();
+
+            fetchTarghe();  // Inizializza la tabella con tutti i dati
         });
     </script>
     {% include './footer.html' %}

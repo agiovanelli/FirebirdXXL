@@ -29,6 +29,7 @@ def filtra_targhe(request):
         targa_query = request.GET.get('targa', '')
         data_emissione_query = request.GET.get('data_emissione', '')
         stato_query = request.GET.get('stato', '')
+        data_restituzione_query = request.GET.get('data_restituzione', '')
 
         targhe = Targa.objects.all()
 
@@ -40,6 +41,8 @@ def filtra_targhe(request):
             targhe = targhe.filter(targaattiva__isnull=False)
         elif stato_query == '0':  # Restituita
             targhe = targhe.filter(targarestituita__isnull=False)
+            if data_restituzione_query:
+                targhe = targhe.filter(targarestituita__data_restituzione=data_restituzione_query)
 
         targhe_dettagli = []
 
@@ -54,6 +57,7 @@ def filtra_targhe(request):
             targhe_dettagli.append(targa_info)
 
         return JsonResponse({'targhe': targhe_dettagli})
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
     
 def revisione(request):
     revisioni = Revisione.objects.all()
