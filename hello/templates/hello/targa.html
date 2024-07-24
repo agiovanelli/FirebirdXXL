@@ -157,7 +157,7 @@
         $(document).ready(function () {
             function fetchTarghe() {
                 var targa = $('#targa').val();
-                var dataEmissione = $('dataEm').val();
+                var dataEmissione = $('#dataEm').val();
                 var stato = $('input[name="stato"]:checked').val();
 
                 $.ajax({
@@ -186,14 +186,14 @@
                     }
                 });
             }
-            $('#targa, #dataEm, input[name = "stato"]').on('input change', fetchTarghe);
+            $('#targa, #dataEm, input[name="stato"]').on('input change', fetchTarghe);
             $('#azzeraFiltri').on('click', function () {
                 $('#targa').val('');
-                $('dataEm').val('');
-                $('input[name = stato]').prop('checkeed', false);
-                fetchTarghe()
+                $('#dataEm').val('');
+                $('input[name="stato"]').prop('checked', false);
+                fetchTarghe();
             });
-            fetchTarge();
+            fetchTarghe();
         });
     </script>
     {% include './footer.html' %}
