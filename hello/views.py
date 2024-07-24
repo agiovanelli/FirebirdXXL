@@ -48,7 +48,7 @@ def filtra_targhe(request):
                 'targa': t.targa,
                 'data_emissione': t.data_emissione,
                 'stato': 'Attiva' if hasattr(t, 'targaattiva') else 'Restituita',
-                'numero_telaio': t.targaattiva.veicolo.numero_telaio if hasattr(t, 'targaattiva') else None,
+                'numero_telaio': t.targaattiva.numero_telaio_id if hasattr(t, 'targaattiva') else None,
                 'data_restituzione': t.targarestituita.data_restituzione if hasattr(t, 'targarestituita') else None
             }
             targhe_dettagli.append(targa_info)
