@@ -1,6 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.utils.dateparse import parse_date
+from django.contrib import messages
 from .models import Veicolo, Targa, Revisione
+import datetime
+
 
 def home(request):
     return render(request,'hello/home.html')
@@ -122,3 +126,66 @@ def filtra_revisioni(request):
 def aggiungi(request):
     return render(request, 'hello/aggiungi.html')
 
+def aggiungi_veicolo(request):
+    if request.method == 'POST':
+        numero_telaio = request.POST.get('numTelaio')
+        marca = request.POST.get('marca')
+        modello = request.POST.get('modello')
+        data_produzione = request.POST.get('dataProd')
+
+    
+        # Controllo sul numero di telaio
+        if len(numero_telaio) != 17 or not numero_telaio.isalnum():
+            messages.error(request, "Il numero di telaio deve essere composto da 17 caratteri alfanumerici.")
+            return redirect('aggiungi')
+
+        # Controllo sulla data di produzione
+        if data_produzione > str(datetime.date.today()):
+            messages.error(request, "La data di produzione non può essere successiva alla data odierna.")
+            return redirect('aggiungi')
+
+        # Creazione del veicolo
+        try:
+            veicolo = Veicolo(numero_telaio=numero_telaio, marca=marca, modello=modello, data_produzione=data_produzione)
+            veicolo.save()
+            messages.success(request, "Veicolo aggiunto con successo!")
+        except Exception as e:
+            messages.error(request, f"Errore durante l'aggiunta del veicolo: {e}")
+        
+        return redirect('aggiungi')
+    return render(request, 'hello/aggiungi.html')
+
+def aggiungi_targa(request):
+    if request.method == 'POST':
+        targa = request.POST.get('targa')
+        data_emissione = request.POST.get('dataEm')
+        numero_telaio = request.POST.get('telaio')
+
+        # Controlli e creazione della targa
+        try:
+            nuova_targa = Targa(targa=targa, data_emissione=data_emissione, numero_telaio=numero_telaio)
+            nuova_targa.save()
+            messages.success(request, "Targa aggiunta con successo!")
+        except Exception as e:
+            messages.error(request, f"Errore durante l'aggiunta della targa: {e}")
+        
+        return redirect('aggiungi')
+    return render(request, 'hello/aggiungi.html')
+
+def aggiungi_revisione(request):
+    if request.method == 'POST':
+        targa = request.POST.get('targa1')
+        data_ultima_revisione = request.POST.get('dataRev')
+        stato = request.POST.get('mostra_div')
+        menu = request.POST.get('menu')
+
+        # Controlli e creazione della revisione
+        try:
+            revisione = Revisione(targa=targa, data_ultima_revisione=data_ultima_revisione, stato=stato, menu=menu)
+            revisione.save()
+            messages.success(request, "Revisione aggiunta con successo!")
+        except Exception as e:
+            messages.error(request, f"Errore durante l'aggiunta della revisione: {e}")
+        
+        return redirect('aggiungi')
+    return render(request, 'hello/aggiungi.html')
