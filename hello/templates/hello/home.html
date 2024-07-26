@@ -8,39 +8,46 @@
     <meta http-equiv="Cache-control" content="no-cache">
     <title>Home</title>
     {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'hello/css/style.css' %}">
-    <!--qui metti i css e js boot, con la stessasintassi cambi solo il percorso e il nome del file-->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-    <header>
-        <div class="header-container">
-            <div id="cambiologo">
-                <a href="{% url 'home' %}"><img src="{% static 'hello/images/fenicebianca.png' %}" alt="icona fenice"
-                        class="icona" id="default"></a>
-                <a href="{% url 'home' %}"><img src="{% static 'hello/images/fenicearancione.png' %}" alt="icona fenice"
-                        class="icona" id="hover"></a>
+    <header class="bg-primary text-white text-center py-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div id="cambiologo" class="d-inline-block">
+                    <a href="{% url 'home' %}">
+                        <img src="{% static 'hello/images/fenicebianca.png' %}" alt="icona fenice" class="icona"
+                            id="default">
+                        <img src="{% static 'hello/images/fenicearancione.png' %}" alt="icona fenice" class="icona"
+                            id="hover">
+                    </a>
+                </div>
+                <h1 class="titolo">FirebirdXXL 2.0</h1>
             </div>
-            <h1 class="titolo">FirebirdXXL 2.0</h1>
         </div>
     </header>
 
-    <div id="filtro">
+    <div id="filtro" class="bg-primary text-white p-3">
         <div class="centrato">
-            <div class="contenitore-icone">
-                <div id="cambio">
+            <div class="contenitore-icone d-flex flex-column align-items-center">
+                <div id="cambio" class="my-4">
                     <img class="iconeHome" src="{% static 'hello/images/fuocobianco.png' %}" alt="icona fuoco"
                         width="100" height="100" id="default">
                     <img class="iconeHome" src="{% static 'hello/images/fuocoarancione.png' %}" alt="icona fuoco"
-                        width="100" height="100" id="hover"><br><br><br><br>
+                        width="100" height="100" id="hover">
                 </div>
-                <div id="cambio">
+                <div id="cambio" class="my-4">
                     <img class="iconeHome" src="{% static 'hello/images/piubianco.png' %}" alt="icona piu" width="100"
                         height="100" id="default">
                     <img class="iconeHome" src="{% static 'hello/images/piuarancione.png' %}" alt="icona piu"
-                        width="100" height="100" id="hover"><br><br><br><br>
+                        width="100" height="100" id="hover">
                 </div>
-                <div id="cambio">
+                <div id="cambio" class="my-4">
                     <img class="iconeHome" src="{% static 'hello/images/uccellobianco.png' %}" alt="icona uccello"
                         width="100" height="100" id="default">
                     <img class="iconeHome" src="{% static 'hello/images/uccelloarancione.png' %}" alt="icona uccello"
@@ -50,11 +57,11 @@
         </div>
     </div>
 
-    <nav>
+    <nav class="bg-white p-3">
         <div class="centrato">
-            <div class="menu-item">
-                <a href="{% url 'veicolo' %}" class="button">
-                    <div class="image-container">
+            <div class="menu-item text-center mb-4">
+                <a href="{% url 'veicolo' %}" class="button d-block bg-primary text-white py-3">
+                    <div class="image-container mb-2">
                         <div id="cambio">
                             <img src="{% static 'hello/images/veicolobianco.png' %}" alt="icona veicolo" width="50"
                                 height="50" id="default">
@@ -62,14 +69,12 @@
                                 height="50" id="hover">
                         </div>
                     </div>
-                </a>
-                <div class="dropdown-content">
                     <span>Veicoli</span>
-                </div>
+                </a>
             </div>
-            <div class="menu-item">
-                <a href="{% url 'targa' %}" class="button">
-                    <div class="image-container">
+            <div class="menu-item text-center mb-4">
+                <a href="{% url 'targa' %}" class="button d-block bg-primary text-white py-3">
+                    <div class="image-container mb-2">
                         <div id="cambio">
                             <img src="{% static 'hello/images/targabianca.png' %}" alt="icona targa" width="50"
                                 height="50" id="default">
@@ -77,14 +82,12 @@
                                 id="hover">
                         </div>
                     </div>
-                </a>
-                <div class="dropdown-content">
                     <span>Targhe</span>
-                </div>
+                </a>
             </div>
-            <div class="menu-item">
-                <a href="{% url 'revisione' %}" class="button">
-                    <div class="image-container">
+            <div class="menu-item text-center mb-4">
+                <a href="{% url 'revisione' %}" class="button d-block bg-primary text-white py-3">
+                    <div class="image-container mb-2">
                         <div id="cambio">
                             <img src="{% static 'hello/images/revisionebianca.png' %}" alt="icona revisione" width="50"
                                 height="50" id="default">
@@ -92,46 +95,43 @@
                                 height="50" id="hover">
                         </div>
                     </div>
-                </a>
-                <div class="dropdown-content">
                     <span>Revisioni</span>
-                </div>
+                </a>
             </div>
         </div>
     </nav>
 
-    <div id="contenuto">
+    <div id="contenuto" class="container mt-5 pt-5 scrollable-content">
         <div class="centrato">
             <h1>Cos'è FirebirdXXL</h1>
             <p>Firebird è un sistema della Motorizzazione Civile per gestire i veicoli e le targhe.</p>
-            <p>XXL perché ci piace fare le cose in grande.</p><br><br>
+            <p>XXL perché ci piace fare le cose in grande.</p>
 
             <h2>Come si effettua la ricerca</h2>
-            <p>Sulla destra vi sono tre bottoni: Veicoli, Targhe e Revisioni</p>
-            <p>Cliccando su ognuno dei pulsanti verrete portati in una pagina dove potrete cercare, ed eventualmente
-                aggiungere, l'oggetto della vostra ricerca.</p>
+            <p>Sulla destra vi sono tre bottoni: Veicoli, Targhe e Revisioni.</p>
+            <p>Cliccando su ognuno dei pulsanti verrete portati in una pagina dove potrete cercare ed eventualmente
+                aggiungere l'oggetto della vostra ricerca.</p>
             <p>Sulla sinistra di ogni pagina ci sono dei filtri che vi faciliteranno la ricerca.</p>
             <p>È inoltre possibile ordinare in modo crescente cliccando una volta sul simbolo accanto alla nome della
-                colonna indicata e ordinarlo in modo decrescente cliccando due volte sulla stessa icona.</p><br><br>
+                colonna indicata e ordinarlo in modo decrescente cliccando due volte sulla stessa icona.</p>
 
             <h2>I dati</h2>
             <p>Ogni pagina possiede un database con più di mille elementi contenenti le più disparate combinazioni.</p>
-            <br><br>
 
             <h2>CRUD</h2>
-            <p>Per ogni tabella sono possibili tutte le pratiche <b>CRUD</b>:</p><br>
+            <p>Per ogni tabella sono possibili tutte le pratiche <b>CRUD</b>:</p>
             <p><b>C</b> - Creazione di un nuovo dato (veicolo, targa e revisione);</p>
             <p><b>R</b> - Tutte le tabella sono consultabili nelle apposite pagine;</p>
             <p><b>U</b> - Tutti i dati nelle tabelle possono essere modificati (tranne alcune eccezioni che abbiamo
                 volutamente scelto di non poter modificare);</p>
-            <p><b>D</b> - Tutti i dati nelle tabelle sono eliminabili.</p><br><br>
+            <p><b>D</b> - Tutti i dati nelle tabelle sono eliminabili.</p>
 
-            <h2>Decisioni intraprese</h2><br>
+            <h2>Decisioni intraprese</h2>
             <p>- Nelle pagine di <a href="{% url 'veicolo' %}">veicolo</a> e <a
                     href="{% url 'revisione' %}">revisione</a> non è possibile modificare la voce "Targa Attuale" /
-                "Targa", data la presenza di una tabella apposita;</p><br>
+                "Targa", data la presenza di una tabella apposita;</p>
             <p>- Nella pagina di <a href="{% url 'revisione' %}">revisione</a> non è possibile modificare la voce
-                "Numero revisione" in quanto è un valore che si aggiorna automaticamente;</p><br>
+                "Numero revisione" in quanto è un valore che si aggiorna automaticamente;</p>
             <p>- Per ogni pagina nel caso si volesse modificare qualche voce sono stati creati dei controlli per il buon
                 inserimento (logico) delle modifiche.</p>
         </div>
