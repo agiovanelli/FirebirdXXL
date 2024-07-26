@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.utils.dateparse import parse_date
 from django.contrib import messages
-from .models import Veicolo, Targa, Revisione
+from .models import Veicolo, Targa, Revisione, TargaAttiva
 import datetime
+from datetime import date, datetime
 
 
 def home(request):
@@ -140,7 +141,7 @@ def aggiungi_veicolo(request):
             return redirect('aggiungi')
 
         # Controllo sulla data di produzione
-        if data_produzione > str(datetime.date.today()):
+        if data_produzione > str(date.today()):
             messages.error(request, "La data di produzione non può essere successiva alla data odierna.")
             return redirect('aggiungi')
 
@@ -161,14 +162,75 @@ def aggiungi_targa(request):
         data_emissione = request.POST.get('dataEm')
         numero_telaio = request.POST.get('telaio')
 
-        # Controlli e creazione della targa
+        targa = targa.upper()
+
+        # Controlli sulla targa
+        if not targa or len(targa) != 7 or not targa[:2].isalpha() or not targa[2:5].isdigit() or not targa[5:].isalpha():
+            messages.error(request, "La targa deve essere composta da 2 lettere, 3 numeri e 2 lettere.")
+            return redirect('aggiungi')
+
+        prima_lettera = targa[0].upper()
+        if prima_lettera not in 'ABCDEFG':
+            messages.error(request, "La prima lettera della targa deve essere compresa tra A e G.")
+            return redirect('aggiungi')
+
         try:
-            nuova_targa = Targa(targa=targa, data_emissione=data_emissione, numero_telaio=numero_telaio)
+            data_emissione = datetime.strptime(data_emissione, '%Y-%m-%d')
+        except ValueError:
+            messages.error(request, "Data di emissione non valida.")
+            return redirect('aggiungi')
+
+        # Controlli sulla prima lettera e la data di emissione
+        if prima_lettera == 'A' and not (datetime(1994, 1, 1) <= data_emissione <= datetime(1997, 12, 31)):
+            messages.error(request, "La data di emissione per la lettera A deve essere tra 01/01/1994 e 31/12/1997.")
+            return redirect('aggiungi')
+        if prima_lettera == 'B' and not (datetime(1998, 1, 1) <= data_emissione <= datetime(2001, 12, 31)):
+            messages.error(request, "La data di emissione per la lettera B deve essere tra 01/01/1998 e 31/12/2001.")
+            return redirect('aggiungi')
+        if prima_lettera == 'C' and not (datetime(2002, 1, 1) <= data_emissione <= datetime(2005, 12, 31)):
+            messages.error(request, "La data di emissione per la lettera C deve essere tra 01/01/2002 e 31/12/2005.")
+            return redirect('aggiungi')
+        if prima_lettera == 'D' and not (datetime(2006, 1, 1) <= data_emissione <= datetime(2009, 12, 31)):
+            messages.error(request, "La data di emissione per la lettera D deve essere tra 01/01/2006 e 31/12/2009.")
+            return redirect('aggiungi')
+        if prima_lettera == 'E' and not (datetime(2010, 1, 1) <= data_emissione <= datetime(2014, 12, 31)):
+            messages.error(request, "La data di emissione per la lettera E deve essere tra 01/01/2010 e 31/12/2014.")
+            return redirect('aggiungi')
+        if prima_lettera == 'F' and not (datetime(2015, 1, 1) <= data_emissione <= datetime(2018, 12, 31)):
+            messages.error(request, "La data di emissione per la lettera F deve essere tra 01/01/2015 e 31/12/2018.")
+            return redirect('aggiungi')
+        if prima_lettera == 'G' and data_emissione < datetime(2019, 1, 1):
+            messages.error(request, "La data di emissione per la lettera G deve essere dal 01/01/2019 in poi.")
+            return redirect('aggiungi')
+
+        # Verifica che il numero di telaio esista e che non abbia già una targa assegnata
+        try:
+            veicolo = Veicolo.objects.get(numero_telaio=numero_telaio)
+        except Veicolo.DoesNotExist:
+            messages.error(request, "Il numero di telaio inserito non esiste.")
+            return redirect('aggiungi')
+
+        if TargaAttiva.objects.filter(numero_telaio=numero_telaio).exists():
+            messages.error(request, "Il veicolo ha già una targa assegnata.")
+            return redirect('aggiungi')
+
+        # Verifica che la data di emissione non sia antecedente alla data di produzione del veicolo
+        dp = veicolo.data_produzione.strftime('%Y-%m-%d')
+        data_produzione = datetime.strptime(dp, '%Y-%m-%d')
+        if data_emissione < data_produzione:
+            messages.error(request, "La data di emissione della targa non può essere antecedente alla data di produzione del veicolo.")
+            return redirect('aggiungi')
+
+        # Creazione della targa
+        try:    
+            nuova_targa = Targa(targa=targa, data_emissione=data_emissione)
             nuova_targa.save()
+            nuova_targa_attiva = TargaAttiva(targa_id=targa, numero_telaio_id=numero_telaio)
+            nuova_targa_attiva.save()
             messages.success(request, "Targa aggiunta con successo!")
         except Exception as e:
             messages.error(request, f"Errore durante l'aggiunta della targa: {e}")
-        
+
         return redirect('aggiungi')
     return render(request, 'hello/aggiungi.html')
 

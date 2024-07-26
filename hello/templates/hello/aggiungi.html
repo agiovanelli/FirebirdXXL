@@ -9,6 +9,7 @@
     <title>Aggiungi</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'hello/css/style.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         #opzioneVisuale2 {
             display: none;
@@ -21,14 +22,23 @@
 </head>
 
 <body>
-
+    <script>
+        document.addEventListener('DOMContentLoaded'), function () {
+    </script>
     {% if messages %}
-    {% for message in messages %}
-    <div>
-        {{message}}
-    </div>
+    {%for message in messages %}
+    <script>
+            Swal.fire({
+                icon: '{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}',
+                title: '{{ message }}',
+                showConfirmButton: true
+            })
+    </script>
     {% endfor %}
     {% endif %}
+    <script>
+        }
+    </script>
 
     <header>
         <div class="header-container">
