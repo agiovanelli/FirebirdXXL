@@ -34,7 +34,7 @@ class TargaRestituita(models.Model):
 class Revisione(models.Model):
     id = models.AutoField(primary_key=True)
     targa = models.ForeignKey(Targa, on_delete=models.CASCADE)
-    numero_revisione = models.CharField(max_length=17)
+    numero_revisione = models.IntegerField()
     data_revisione = models.DateField()
     stato = models.CharField(max_length=100)
     motivazione = models.CharField(max_length=100, null=True)

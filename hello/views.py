@@ -234,20 +234,76 @@ def aggiungi_targa(request):
         return redirect('aggiungi')
     return render(request, 'hello/aggiungi.html')
 
+
 def aggiungi_revisione(request):
     if request.method == 'POST':
-        targa = request.POST.get('targa1')
+        targa_input = request.POST.get('targa1')
         data_ultima_revisione = request.POST.get('dataRev')
         stato = request.POST.get('mostra_div')
         menu = request.POST.get('menu')
 
-        # Controlli e creazione della revisione
+        # Log input values
+        print(f"Received data - Targa: {targa_input}, Data Revisione: {data_ultima_revisione}, Stato: {stato}, Menu: {menu}")
+
+        # Controllo che la targa esista
         try:
-            revisione = Revisione(targa=targa, data_ultima_revisione=data_ultima_revisione, stato=stato, menu=menu)
+            targa = Targa.objects.get(targa=targa_input)
+            print(f"Targa found: {targa}")
+        except Targa.DoesNotExist:
+            messages.error(request, "La targa non esiste.")
+            return redirect('aggiungi')
+
+        # Conversione della data
+        try:
+            data_ultima_revisione_dt = datetime.strptime(data_ultima_revisione, "%Y-%m-%d").date()
+            print(f"Converted data revisione: {data_ultima_revisione_dt}")
+        except ValueError:
+            messages.error(request, "La data dell'ultima revisione non è valida.")
+            return redirect('aggiungi')
+
+        # Controllo che la data dell'ultima revisione non sia nel futuro
+        if data_ultima_revisione_dt > datetime.now().date():
+            messages.error(request, "La data dell'ultima revisione non può essere nel futuro.")
+            return redirect('aggiungi')
+
+        # Controllo che la data dell'ultima revisione non sia antecedente alla data della revisione precedente
+        ultime_revisioni = Revisione.objects.filter(targa=targa).order_by("-numero_revisione")
+        if ultime_revisioni.exists():
+            ultima_revisione = ultime_revisioni.first()
+            print(f"Ultima revisione: {ultima_revisione}")
+            if data_ultima_revisione_dt <= ultima_revisione.data_revisione:
+                messages.error(request, "La data dell'ultima revisione non può essere antecedente alla revisione precedente.")
+                return redirect('aggiungi')
+
+        # Determinazione del numero di revisione
+        try:
+            numero_revisione = 1
+            if ultime_revisioni.exists():
+                numero_revisione = ultime_revisioni.first().numero_revisione + 1  # Conversione in intero
+            print(f"Numero revisione: {numero_revisione}")
+
+            # Conversione dello stato
+            stato_db = "positivo" if stato == 'true' else "negativo"
+            print(f"Stato DB: {stato_db}")
+
+            # Se la revisione non è superata, la motivazione non può essere vuota
+            if stato == 'false' and (not menu or menu == ""):
+                messages.error(request, "Se la revisione non è superata, deve essere fornita una motivazione.")
+                return redirect('aggiungi')
+
+            revisione = Revisione(
+                targa=targa,
+                data_revisione=data_ultima_revisione_dt,
+                stato=stato_db,
+                motivazione=menu if stato_db == "negativo" else None,
+                numero_revisione=numero_revisione
+            )
             revisione.save()
+            print("Revisione salvata correttamente")
             messages.success(request, "Revisione aggiunta con successo!")
         except Exception as e:
-            messages.error(request, f"Errore durante l'aggiunta della revisione: {e}")
-        
+            messages.error(request, f"Errore durante l'aggiunta della revisione: {str(e)}")
+            print(f"Errore durante il salvataggio: {str(e)}")
+
         return redirect('aggiungi')
     return render(request, 'hello/aggiungi.html')
