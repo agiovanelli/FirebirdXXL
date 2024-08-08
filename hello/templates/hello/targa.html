@@ -7,17 +7,14 @@
     <meta http-equiv="Cache-control" content="no-cache">
     <title>Targhe</title>
     {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'hello/css/style.css' %}">
-    <!--qui metti i css e js bootstrap, con la stessasintassi cambi solo il percorso e il nome del file-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <style>
-        #opzioneVisuale {
-            display: none;
-        }
-
-        #targaRestituita:checked~#opzioneVisuale {
-            display: block;
-        }
-
         .buttonP {
             display: inline-block;
             padding: 5px 35px;
@@ -54,37 +51,36 @@
     <div id="filtro">
         <div class="centrato">
             <h2 style="text-align: center;">Ricerca</h2><br>
-            <form id="formRicerca" method="get">
+            <form id="formRicerca" method="post">
                 {% csrf_token %}
-                <label for="richiesta">Targa</label><br>
-                <input type="text" id="targa" name="testo" /><br><br>
-                <label for="richiesta">Data di emissione</label><br>
-                <input type="date" id="dataEm"><br><br>
-                <label for="richiesta">Stato della targa</label><br>
-                <input type="radio" id="targaAttiva" name="attivita" value="1">
-                <label for="richiesta">Attiva</label><br>
-                <input type="radio" id="targaRestituita" name="attivita" value="0">
-                <label for="richiesta">Restituita</label><br>
-                <div id="opzioneVisuale">
-                    <br><label for="richiesta">Data restituzione</label><br>
-                    <input type="date" id="dataRest" name="testo" /><br>
-                </div><br>
-                <input style="width: 50%;" type="submit" value="Azzera filtri" />
+                <label for="targa">Targa</label><br>
+                <input type="text" id="targa" name="targa" /><br><br>
+                <label for="dataEm">Data di emissione</label><br>
+                <input type="date" id="dataEm" name="data_emissione" /><br><br>
+                <label for="attivita">Stato</label><br>
+                <input type="radio" id="attivo" name="attivita" value="Attiva">
+                <label for="attivo">Attiva</label>
+                <input type="radio" id="non_attivo" name="attivita" value="Restituita">
+                <label for="non_attivo">Restituita</label><br><br>
+                <label for="dataRest">Data di restituzione</label><br>
+                <input type="date" id="dataRest" name="data_restituzione" /><br><br>
+                <input style="width: 50%;" type="submit" value="Azzera filtri" id="azzeraFiltri" />
             </form><br>
             <div>
                 <a href="{% url 'aggiungi' %}?content=2" class="buttonP">Aggiungi targa</a>
             </div>
         </div>
     </div>
+
     <nav>
         <div class="centrato">
             <div class="menu-item">
                 <a href="{% url 'home' %}" class="button">
                     <div class="image-container">
                         <div id="cambio">
-                            <img src="{% static 'hello/images/homebianca.png' %}" alt="icona targa" width="50"
+                            <img src="{% static 'hello/images/homebianca.png' %}" alt="icona home" width="50"
                                 height="50" id="default">
-                            <img src="{% static 'hello/images/homeblu.png' %}" alt="icona targa" width="50" height="50"
+                            <img src="{% static 'hello/images/homeblu.png' %}" alt="icona home" width="50" height="50"
                                 id="hover">
                         </div>
                     </div>
@@ -120,94 +116,316 @@
                     </div>
                 </a>
                 <div class="dropdown-content">
-                    <span>Revisioni</span>
+                    <span>Revisione</span>
                 </div>
             </div>
         </div>
     </nav>
 
-    <div class="contenuto">
-        <div class="centrato">
-            <h1>Lista Targhe</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Targa</th>
-                        <th>Data Emissione</th>
-                        <th>Stato</th>
-                        <th>Veicolo</th>
-                        <th>Data di Restituzione</th>
-                    </tr>
-                </thead>
-                <tbody id="tabella-targhe">
-                    {% for targa in targhe_dettagli %}
-                    <tr>
-                        <td>{{targa.targa }}</td>
-                        <td>{{targa.data_emissione }}</td>
-                        <td>{{targa.stato}}</td>
-                        <td>{{targa.numero_telaio }}</td>
-                        <td>{{targa.data_restituzione }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <div class="contenuto" class="container mt-5 pt-5 scrollable-content">
+        <div id="contenuto" class="container mt-5 pt-5 scrollable-content">
+            <div class="centrato">
+                <h1>Lista Targhe</h1>
+                {% if messages %}
+                {% for message in messages %}
+                <script>
+                    Swal.fire({
+                        icon: '{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}',
+                        title: '{{ message }}',
+                        showConfirmButton: true
+                    })
+                </script>
+                {% endfor %}
+                {% endif %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Targa</th>
+                            <th>Data di Emissione</th>
+                            <th>Stato</th>
+                            <th>Numero Telaio</th>
+                            <th>Data di Restituzione</th>
+                            <th>Azioni</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabella-targhe">
+                        {% for targa in targhe %}
+                        <tr data-targa="{{ targa.targa }}">
+                            <td>{{ targa.targa }}</td>
+                            <td>{{ targa.data_emissione|date:"Y-m-d" }}</td>
+                            <td>{{ targa.stato }}</td>
+                            <td>{{ targa.numero_telaio }}</td>
+                            <td>{% if targa.data_restituzione %}{{ targa.data_restituzione|date:"Y-m-d" }}{% endif %}
+                            </td>
+                            <td>
+                                <button class="btn btn-primary modifica">Modifica</button>
+                                <button class="btn btn-danger elimina">Elimina</button>
+                                <button class="btn btn-success conferma d-none">Conferma</button>
+                                <button class="btn btn-secondary annulla d-none">Annulla</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            function fetchTarghe() {
-                var targa = $('#targa').val();
-                var dataEmissione = $('#dataEm').val();
-                var stato = $('input[name="attivita"]:checked').val();
-                var dataRestituzione = $('#dataRest').val();
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                var editingRow = null;
+                var originalData = {};
 
-                $.ajax({
-                    url: '{% url "filtra_targhe" %}',
-                    data: {
-                        'targa': targa,
-                        'data_emissione': dataEmissione,
-                        'stato': stato,
-                        'data_restituzione': dataRestituzione,
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-                        var targhe = data.targhe;
-                        var tbody = $('#tabella-targhe');
-                        tbody.empty();  // Pulisci il contenuto della tabella
-                        for (var i = 0; i < targhe.length; i++) {
-                            var targa = targhe[i];
-                            var row = '<tr>' +
-                                '<td>' + targa.targa + '</td>' +
-                                '<td>' + targa.data_emissione + '</td>' +
-                                '<td>' + targa.stato + '</td>' +
-                                '<td>' + (targa.numero_telaio || '') + '</td>' +
-                                '<td>' + (targa.data_restituzione || '') + '</td>' +
-                                '</tr>';
-                            tbody.append(row);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("AJAX Error: ", status, error);
-                        console.error("Response: ", xhr.responseText);
+                // Convert 'aaaa-mm-gg' to 'gg-mm-aaaa'
+                function formatDateToDisplay(dateString) {
+                    if (!dateString || typeof dateString !== 'string') {
+                        return '';
                     }
+                    const parts = dateString.split('-');
+                    if (parts.length === 3) {
+                        return `${parts[2]}-${parts[1]}-${parts[0]}`;
+                    }
+                    return dateString;
+                }
+
+                // Convert 'gg-mm-aaaa' to 'aaaa-mm-gg'
+                function parseInputToDate(dateString) {
+                    const parts = dateString.split('-');
+                    if (parts.length === 3) {
+                        return `${parts[2]}-${parts[1]}-${parts[0]}`;
+                    }
+                    return dateString;
+                }
+
+                function fetchTarghe() {
+                    var targa = $('#targa').val();
+                    var dataEmissione = $('#dataEm').val();
+                    var stato = $('input[name="attivita"]:checked').val();
+                    var dataRestituzione = $('#dataRest').val();
+
+                    $.ajax({
+                        url: '{% url "filtra_targhe" %}',
+                        data: {
+                            'targa': targa,
+                            'data_emissione': dataEmissione,
+                            'stato': stato,
+                            'data_restituzione': dataRestituzione,
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            var targhe = data.targhe;
+                            var tbody = $('#tabella-targhe');
+                            tbody.empty();
+                            for (var i = 0; i < targhe.length; i++) {
+                                var targa = targhe[i];
+                                var row = '<tr data-targa="' + targa.targa + '">' +
+                                    '<td>' + targa.targa + '</td>' +
+                                    '<td>' + formatDateToDisplay(targa.data_emissione) + '</td>' +
+                                    '<td>' + targa.stato + '</td>' +
+                                    '<td>' + (targa.numero_telaio || '') + '</td>' +
+                                    '<td>' + formatDateToDisplay(targa.data_restituzione) + '</td>' +
+                                    '<td>' +
+                                    '<button class="btn btn-primary modifica">Modifica</button>' +
+                                    '<button class="btn btn-danger elimina">Elimina</button>' +
+                                    '<button class="btn btn-success conferma d-none">Conferma</button>' +
+                                    '<button class="btn btn-secondary annulla d-none">Annulla</button>' +
+                                    '<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">' +
+                                    '</td>' +
+                                    '</tr>';
+                                tbody.append(row);
+                            }
+                        }
+                    });
+                }
+
+                $('#targa, #dataEm, #dataRest, input[name="attivita"]').on('input change', fetchTarghe);
+
+                $('#azzeraFiltri').on('click', function (event) {
+                    event.preventDefault();
+                    $('#targa').val('');
+                    $('#dataEm').val('');
+                    $('input[name="attivita"]').prop('checked', false);
+                    $('#dataRest').val('');
+                    fetchTarghe();
                 });
-            }
 
-            $('#targa, #dataEm, #dataRest, input[name="attivita"]').on('input change', fetchTarghe);
-
-            $('#azzeraFiltri').on('click', function () {
-                $('#targa').val('');
-                $('#dataEm').val('');
-                $('#dataRest').val('');
-                $('input[name="attivita"]').prop('checked', false);
                 fetchTarghe();
-            });
 
-            fetchTarghe();  // Inizializza la tabella con tutti i dati
-        });
-    </script>
-    {% include './footer.html' %}
+                $(document).on('click', '.modifica', function () {
+                    var row = $(this).closest('tr');
+
+                    if (editingRow && editingRow[0] !== row[0]) {
+                        editingRow.find('.annulla').trigger('click');
+                    }
+
+                    editingRow = row;
+                    originalData = {};
+
+                    var cells = row.find('td').not(':last');
+                    cells.each(function () {
+                        var cell = $(this);
+                        var text = cell.text().trim();
+                        originalData[cell.index()] = text;
+
+                        if (cell.index() === 1 || cell.index() === 4) {
+                            var dateParts = text.split('-');
+                            if (dateParts.length === 3) {
+                                text = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+                            }
+                            cell.html('<input type="date" class="form-control" value="' + text + '">');
+                        } else if (cell.index() === 2) {
+                            var statoValue = text;
+                            var selectHtml = `
+                        <select class="form-control stato-select" ${statoValue === 'Restituita' ? 'disabled' : ''}>
+                            <option value="Attiva" ${statoValue === 'Attiva' ? 'selected' : ''}>Attiva</option>
+                            <option value="Restituita" ${statoValue === 'Restituita' ? 'selected' : ''}>Restituita</option>
+                        </select>`;
+                            cell.html(selectHtml);
+                        } else if (cell.index() === 3) {
+                            cell.html('<input type="text" class="form-control input-numero-telaio" value="' + text + '">');
+                        } else {
+                            cell.html('<input type="text" class="form-control" value="' + text + '">');
+                        }
+                    });
+
+                    var statoValue = cells.eq(2).find('select').val();
+                    var dataRestituzioneCell = cells.eq(4);
+                    if (statoValue === 'Restituita') {
+                        var dateValue = originalData[4] ? parseInputToDate(originalData[4]) : '';
+                        dataRestituzioneCell.html('<input type="date" class="form-control" value="' + dateValue + '">');
+                    } else {
+                        dataRestituzioneCell.empty();
+                    }
+
+                    row.find('.modifica, .elimina').addClass('d-none');
+                    row.find('.conferma, .annulla').removeClass('d-none');
+
+                    $('.stato-select').change(function () {
+                        var selectedStato = $(this).val();
+                        var dataRestituzioneCell = $(this).closest('tr').find('td').eq(4);
+                        if (selectedStato === 'Restituita') {
+                            var dateValue = originalData[4] ? parseInputToDate(originalData[4]) : '';
+                            dataRestituzioneCell.html('<input type="date" class="form-control" value="' + dateValue + '">');
+                        } else {
+                            dataRestituzioneCell.empty();
+                        }
+                    });
+                });
+
+                $(document).on('click', '.annulla', function () {
+                    if (!editingRow) return;
+                    var row = editingRow;
+                    var cells = row.find('td').not(':last');
+                    cells.each(function () {
+                        var cell = $(this);
+                        var originalText = originalData[cell.index()];
+                        cell.text(originalText);
+                    });
+
+                    row.find('.modifica, .elimina').removeClass('d-none');
+                    row.find('.conferma, .annulla').addClass('d-none');
+
+                    editingRow = null;
+                    originalData = {};
+                });
+
+                $(document).on('click', '.conferma', function () {
+                    var row = $(this).closest('tr');
+                    var targa = row.data('targa');
+                    var cells = row.find('td').not(':last');
+                    var data = {
+                        targa: targa,
+                        nuovo_targa: cells.eq(0).find('input').val(),
+                        data_emissione: parseInputToDate(cells.eq(1).find('input').val()),
+                        stato: cells.eq(2).find('select').val(),
+                        numero_telaio: cells.eq(3).find('input').val(),
+                        data_restituzione: cells.eq(4).find('input').val() ? parseInputToDate(cells.eq(4).find('input').val()) : '',
+                        csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
+                    };
+
+                    $.ajax({
+                        url: '{% url "modifica_targa" %}',
+                        method: 'POST',
+                        data: data,
+                        success: function (response) {
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: response.message,
+                                    showConfirmButton: true
+                                }).then(function () {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Errore',
+                                    text: response.message,
+                                    showConfirmButton: true
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Errore',
+                                text: 'Errore nella richiesta AJAX: ' + error,
+                                showConfirmButton: true
+                            });
+                        }
+                    });
+                });
+
+                $(document).on('click', '.elimina', function () {
+                    var row = $(this).closest('tr');
+                    var targa = row.data('targa');
+
+                    Swal.fire({
+                        title: 'Sei sicuro di voler eliminare questa targa?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sì, elimina!',
+                        cancelButtonText: 'No, annulla'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: '{% url "elimina_targa" %}',
+                                method: 'POST',
+                                data: { 'targa': targa, csrfmiddlewaretoken: '{{ csrf_token }}' },
+                                success: function (response) {
+                                    if (response.status === 'success') {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: response.message,
+                                            showConfirmButton: false,
+                                            timer: 1500
+                                        }).then(function () {
+                                            row.remove(); // Rimuovi la riga dalla tabella
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Errore',
+                                            text: response.message,
+                                            showConfirmButton: true
+                                        });
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Errore',
+                                        text: 'Errore nella richiesta AJAX: ' + error,
+                                        showConfirmButton: true
+                                    });
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
+        {%include './footer.html' %}
+    </div>
 </body>
 
 </html>

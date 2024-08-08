@@ -17,19 +17,19 @@ class Targa(models.Model):
         return f"{self.targa} {self.data_emissione})"
 
 class TargaAttiva(models.Model):
-    targa= models.OneToOneField(Targa, on_delete=models.CASCADE, primary_key=True)
-    numero_telaio = models.OneToOneField(Veicolo, on_delete=models.CASCADE)
+    targa= models.OneToOneField(Targa, on_delete=models.PROTECT, primary_key=True)
+    numero_telaio = models.OneToOneField(Veicolo, on_delete=models.PROTECT)
 
     def __str__(self):
-        return f"{self.marca} {self.modello} ({self.numero_telaio})"
+        return f"{self.targa} ({self.numero_telaio})"
 
 class TargaRestituita(models.Model):
-    targa = models.OneToOneField(Targa, on_delete=models.CASCADE, primary_key=True)
-    numero_telaio = models.OneToOneField(Veicolo, on_delete=models.CASCADE)    
+    targa = models.OneToOneField(Targa, on_delete=models.PROTECT, primary_key=True)
+    numero_telaio = models.ForeignKey(Veicolo, on_delete=models.PROTECT)    
     data_restituzione = models.DateField()
 
     def __str__(self):
-        return f"{self.marca} {self.modello} ({self.numero_telaio})"
+        return f"{self.targa} ({self.numero_telaio}) {self.data_restituzione}"
 
 class Revisione(models.Model):
     id = models.AutoField(primary_key=True)

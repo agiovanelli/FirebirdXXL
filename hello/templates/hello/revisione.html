@@ -7,15 +7,29 @@
     <meta http-equiv="Cache-control" content="no-cache">
     <title>Revisioni</title>
     {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'hello/css/style.css' %}">
-    <!--qui metti i css e js bootstrap, con la stessasintassi cambi solo il percorso e il nome del file-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <style>
-        #opzioneVisuale2 {
-            display: none;
+        table th {
+            white-space: normal;
+            text-align: center;
         }
 
-        #AssNo:checked~#opzioneVisuale2 {
-            display: block;
+        table th,
+        table td {
+            padding: 8px;
+            vertical-align: middle;
+        }
+
+        table th:nth-child(6),
+        table td:nth-child(6) {
+            min-width: 150px;
+            /* Larghezza minima per la colonna Azioni */
         }
 
         .buttonP {
@@ -134,88 +148,130 @@
         </div>
     </nav>
 
-    <div class="contenuto">
-        <div class="centrato">
-            <h1>Lista Revisioni</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Targa</th>
-                        <th>Numero Revisione</th>
-                        <th>Data ultima revisione</th>
-                        <th>Stato</th>
-                        <th>Motivazione</th>
-                    </tr>
-                </thead>
-                <tbody id="tabella-revisioni">
-                    {% for revisione in revisioni %}
-                    <tr>
-                        <td>{{ revisione.targa }}</td>
-                        <td>{{ revisione.numero_revisione }}</td>
-                        <td>{{ revisione.data_revisione }}</td>
-                        <td>{{ revisione.stato }}</td>
-                        <td>{{ revisione.motivazione }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <div class="contenuto" class="container mt-5 pt-5 scrollable-content">
+        <div id="contenuto" class="container mt-5 pt-5 scrollable-content">
+            <div class="centrato">
+                <h1>Lista Revisioni</h1>
+                {% if messages %}
+                {% for message in messages %}
+                <script>
+                    Swal.fire({
+                        icon: '{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}',
+                        title: '{{ message }}',
+                        showConfirmButton: true
+                    })
+                </script>
+                {% endfor %}
+                {% endif %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Targa</th>
+                            <th>Numero Revisione</th>
+                            <th>Data ultima revisione</th>
+                            <th>Stato</th>
+                            <th>Motivazione</th>
+                            <th>Azioni</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabella-revisioni">
+                        {% for revisione in revisioni %}
+                        <tr>
+                            <td>{{ revisione.targa }}</td>
+                            <td>{{ revisione.numero_revisione }}</td>
+                            <td>{{ revisione.data_revisione }}</td>
+                            <td>{{ revisione.stato }}</td>
+                            <td>{{ revisione.motivazione }}</td>
+                            <td>
+                                <button class="btn btn-primary modifica">Modifica</button>
+                                <button class="btn btn-danger elimina">Elimina</button>
+                                <button class="btn btn-success conferma d-none">Conferma</button>
+                                <button class="btn btn-secondary annulla d-none">Annulla</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            function formatDateToDisplay(dateString) {
+                if (!dateString) return '';  // Se dateString è undefined o null, ritorna una stringa vuota
+                const parts = dateString.split('-');
+                if (parts.length === 3) {
+                    return `${parts[2]}-${parts[1]}-${parts[0]}`;
+                }
+                return dateString;
+            }
+
             function fetchRevisioni() {
+                console.log("fetchRevisioni chiamata");  // Log per verificare se la funzione viene chiamata
+
                 var targa = $('#targa').val();
                 var dataRevisione = $('#dataRev').val();
-                //var stato = $('input[name="attivita"]:checked').val();
-                //var dataRestituzione = $('#dataRest').val();
+                var stato = $('input[name="Ass"]:checked').val();
+                var motivazione = $('#menu').val();
 
                 $.ajax({
                     url: '{% url "filtra_revisioni" %}',
                     data: {
                         'targa': targa,
                         'data_revisione': dataRevisione,
-                        //'stato': stato,
-                        //'data_restituzione': dataRestituzione,
+                        'stato': stato,
+                        'motivazione': motivazione,
                     },
                     dataType: 'json',
                     success: function (data) {
+                        console.log("Dati ricevuti:", data);  // Log dei dati ricevuti per verificare che l'AJAX funzioni
+
                         var revisioni = data.revisioni;
                         var tbody = $('#tabella-revisioni');
                         tbody.empty();  // Pulisci il contenuto della tabella
-                        for (var i = 0; i < revisioni.length; i++) {
-                            var revisione = revisioni[i];
-                            var row = '<tr>' +
-                                '<td>' + revisione.targa + '</td>' +
-                                '<td>' + revisione.numero_revisione + '</td>' +
-                                '<td>' + revisione.data_revisione + '</td>' +
-                                '<td>' + revisione.stato + '</td>' +
-                                '<td>' + (revisione.motivazione || '') + '</td>' +
-                                '</tr>';
-                            tbody.append(row);
+
+                        if (revisioni.length === 0) {
+                            console.log("Nessuna revisione trovata");
+                        } else {
+                            for (var i = 0; i < revisioni.length; i++) {
+                                var revisione = revisioni[i];
+                                var row = '<tr>' +
+                                    '<td>' + revisione.targa + '</td>' +
+                                    '<td>' + revisione.numero_revisione + '</td>' +
+                                    '<td>' + formatDateToDisplay(revisione.data_revisione) + '</td>' +
+                                    '<td>' + revisione.stato + '</td>' +
+                                    '<td>' + (revisione.motivazione || '') + '</td>' +
+                                    '<td>' +
+                                    '<button class="btn btn-primary modifica">Modifica</button>' +
+                                    '<button class="btn btn-danger elimina">Elimina</button>' +
+                                    '<button class="btn btn-success conferma d-none">Conferma</button>' +
+                                    '<button class="btn btn-secondary annulla d-none">Annulla</button>' +
+                                    '</td>' +
+                                    '</tr>';
+                                tbody.append(row);
+                            }
                         }
                     },
-                    error: function (xhr, status, error) {
-                        console.error("AJAX Error: ", status, error);
-                        console.error("Response: ", xhr.responseText);
-                    }
                 });
             }
 
-            $('#targa, #dataRev').on('input change', fetchRevisioni);
+            // Event listeners
+            $('#targa, #dataRev, #menu, input[name="Ass"]').on('input change', fetchRevisioni);
 
             $('#azzeraFiltri').on('click', function () {
                 $('#targa').val('');
                 $('#dataRev').val('');
+                $('#menu').val('');
+                $('input[name="Ass"]').prop('checked', false);
                 fetchRevisioni();
             });
 
             fetchRevisioni();  // Inizializza la tabella con tutti i dati
-        });
-    </script>
 
-    {% include './footer.html' %}
+        </script>
+
+        {% include './footer.html' %}
+    </div>
 </body>
 
 </html>

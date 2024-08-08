@@ -7,8 +7,13 @@
     <meta http-equiv="Cache-control" content="no-cache">
     <title>Veicoli</title>
     {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'hello/css/style.css' %}">
-    <!--qui metti i css e js bootstrap, con la stessasintassi cambi solo il percorso e il nome del file-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <style>
         .buttonP {
             display: inline-block;
@@ -114,85 +119,233 @@
         </div>
     </nav>
 
-    <div class="contenuto">
-        <div class="centrato">
-            <h1>Lista Veicoli</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Numero Telaio</th>
-                        <th>Marca</th>
-                        <th>Modello</th>
-                        <th>Data di Produzione</th>
-                    </tr>
-                </thead>
-                <tbody id="tabella-veicoli">
-                    {% for veicolo in veicoli %}
-                    <tr>
-                        <td>{{ veicolo.numero_telaio }}</td>
-                        <td>{{ veicolo.marca }}</td>
-                        <td>{{ veicolo.modello }}</td>
-                        <td>{{ veicolo.data_produzione }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <div class="contenuto" class="container mt-5 pt-5 scrollable-content">
+        <div id="contenuto" class="container mt-5 pt-5 scrollable-content">
+            <div class="centrato">
+                <h1>Lista Veicoli</h1>
+                {% if messages %}
+                {%for message in messages %}
+                <script>
+                    Swal.fire({
+                        icon: '{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}',
+                        title: '{{ message }}',
+                        showConfirmButton: true
+                    })
+                </script>
+                {% endfor %}
+                {% endif %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Numero Telaio</th>
+                            <th>Marca</th>
+                            <th>Modello</th>
+                            <th>Data di Produzione</th>
+                            <th>Azioni</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabella-veicoli">
+                        {% for veicolo in veicoli %}
+                        <tr data-numero-telaio="{{ veicolo.numero_telaio }}">
+                            <td>{{ veicolo.numero_telaio }}</td>
+                            <td>{{ veicolo.marca }}</td>
+                            <td>{{ veicolo.modello }}</td>
+                            <td>{{ veicolo.data_produzione|date:"d-m-Y" }}</td>
+                            <td>
+                                <button class="btn btn-primary modifica">Modifica</button>
+                                <button class="btn btn-danger elimina">Elimina</button>
+                                <button class="btn btn-success conferma d-none">Conferma</button>
+                                <button class="btn btn-secondary annulla d-none">Annulla</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            function fetchVeicoli() {
-                var numero_telaio = $('#numTelaio').val();
-                var marca = $('#marca').val();
-                var modello = $('#modello').val();
-                var dataProd = $('#dataProd').val();
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                function formatDateToDisplay(dateString) {
+                    if (!dateString) return '';  // Se dateString è undefined o null, ritorna una stringa vuota
+                    const parts = dateString.split('-');
+                    if (parts.length === 3) {
+                        return `${parts[2]}-${parts[1]}-${parts[0]}`;
+                    }
+                    return dateString;
+                }
 
-                $.ajax({
-                    url: '{% url "filtra_veicoli" %}',
-                    data: {
-                        'numero_telaio': numero_telaio,
-                        'marca': marca,
-                        'modello': modello,
-                        'data_produzione': dataProd,
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-                        var veicoli = data.veicoli;
-                        var tbody = $('#tabella-veicoli');
-                        tbody.empty();  // Pulisci il contenuto della tabella
-                        for (var i = 0; i < veicoli.length; i++) {
-                            var veicolo = veicoli[i];
-                            var row = '<tr>' +
-                                '<td>' + veicolo.numero_telaio + '</td>' +
-                                '<td>' + veicolo.marca + '</td>' +
-                                '<td>' + veicolo.modello + '</td>' +
-                                '<td>' + veicolo.data_produzione + '</td>' +
-                                '</tr>';
-                            tbody.append(row);
+                function parseInputToDate(dateString) {
+                    const parts = dateString.split('-');
+                    if (parts.length === 3) {
+                        return `${parts[0]}-${parts[1]}-${parts[2]}`;
+                    }
+                    return dateString;
+                }
+
+                function fetchVeicoli() {
+                    var numero_telaio = $('#numTelaio').val();
+                    var marca = $('#marca').val();
+                    var modello = $('#modello').val();
+                    var dataProd = $('#dataProd').val();
+
+                    $.ajax({
+                        url: '{% url "filtra_veicoli" %}',
+                        data: {
+                            'numero_telaio': numero_telaio,
+                            'marca': marca,
+                            'modello': modello,
+                            'data_produzione': dataProd,
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            var veicoli = data.veicoli;
+                            var tbody = $('#tabella-veicoli');
+                            tbody.empty();
+                            for (var i = 0; i < veicoli.length; i++) {
+                                var veicolo = veicoli[i];
+                                var row = '<tr data-numero-telaio="' + veicolo.numero_telaio + '">' +
+                                    '<td>' + veicolo.numero_telaio + '</td>' +
+                                    '<td>' + veicolo.marca + '</td>' +
+                                    '<td>' + veicolo.modello + '</td>' +
+                                    '<td>' + formatDateToDisplay(veicolo.data_produzione) + '</td>' +
+                                    '<td>' +
+                                    '<button class="btn btn-primary modifica">Modifica</button>' +
+                                    '<button class="btn btn-danger elimina">Elimina</button>' +
+                                    '<button class="btn btn-success conferma d-none">Conferma</button>' +
+                                    '<button class="btn btn-secondary annulla d-none">Annulla</button>' +
+                                    '<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">'
+                                '</td>' +
+                                    '</tr>';
+                                tbody.append(row);
+                            }
                         }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("AJAX Error: ", status, error);
-                        console.error("Response: ", xhr.responseText);
+                    });
+                }
+
+                $('#numTelaio, #marca, #modello, #dataProd').on('input change', fetchVeicoli);
+
+                $('#azzeraFiltri').on('click', function () {
+                    $('#numTelaio').val('');
+                    $('#marca').val('');
+                    $('#modello').val('');
+                    $('#dataProd').val('');
+                    fetchVeicoli();
+                });
+
+                fetchVeicoli();
+
+                $(document).on('click', '.modifica', function () {
+                    var row = $(this).closest('tr');
+                    var cells = row.find('td').not(':last');
+                    cells.each(function () {
+                        var cell = $(this);
+                        var text = cell.text().trim();
+                        if (cell.index() === 3) {
+                            var dateParts = text.split('-');
+                            text = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+                            cell.html('<input type="date" class="form-control" value="' + text + '">');
+                        } else {
+                            cell.html('<input type="text" class="form-control" value="' + text + '">');
+                        }
+                    });
+                    row.find('.modifica, .elimina').addClass('d-none');
+                    row.find('.conferma, .annulla').removeClass('d-none');
+                });
+
+                $(document).on('click', '.annulla', function () {
+                    var row = $(this).closest('tr');
+                    var cells = row.find('td').not(':last');
+                    cells.each(function () {
+                        var cell = $(this);
+                        var input = cell.find('input');
+                        if (input.length) {
+                            var text = input.val();
+                            if (cell.index() === 3) {
+                                var dateParts = text.split('-');
+                                text = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+                            }
+                            cell.text(text);
+                        }
+                    });
+                    row.find('.modifica, .elimina').removeClass('d-none');
+                    row.find('.conferma, .annulla').addClass('d-none');
+                });
+
+                $(document).on('click', '.conferma', function () {
+                    var row = $(this).closest('tr');
+                    var numero_telaio_old = row.data('numero-telaio');
+                    var cells = row.find('td').not(':last');
+                    var data = {
+                        numero_telaio_old: numero_telaio_old,
+                        numero_telaio: cells.eq(0).find('input').val(),
+                        marca: cells.eq(1).find('input').val(),
+                        modello: cells.eq(2).find('input').val(),
+                        data_produzione: cells.eq(3).find('input').val(),
+                        csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
+                    };
+
+                    $.ajax({
+                        url: '{% url "modifica_veicolo" %}',
+                        method: 'POST',
+                        data: data,
+                        success: function (response) {
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: response.message,
+                                    showConfirmButton: true
+                                }).then(function () {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Errore',
+                                    text: response.message,
+                                    showConfirmButton: true
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Errore',
+                                text: 'Errore nella richiesta AJAX: ' + error,
+                                showConfirmButton: true
+                            });
+                        }
+                    });
+                });
+
+
+                $(document).on('click', '.elimina', function () {
+                    var row = $(this).closest('tr');
+                    var numero_telaio = row.data('numero-telaio');
+
+                    if (confirm('Sei sicuro di voler eliminare questo veicolo?')) {
+                        $.ajax({
+                            url: '{% url "elimina_veicolo" %}',
+                            method: 'POST',
+                            data: { 'numero_telaio': numero_telaio, csrfmiddlewaretoken: '{{ csrf_token }}' },
+                            success: function (response) {
+                                if (response.success) {
+                                    row.remove();
+                                    location.reload();
+                                } else {
+                                    alert('Errore nell\'eliminazione del veicolo');
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("AJAX Error: ", status, error);
+                            }
+                        });
                     }
                 });
-            }
-
-            $('#numTelaio, #marca, #modello, #dataProd').on('input change', fetchVeicoli);
-
-            $('#azzeraFiltri').on('click', function () {
-                $('#numTelaio').val('');
-                $('#marca').val('');
-                $('#modello').val('');
-                $('#dataProd').val('');
-                fetchVeicoli();
             });
-
-            fetchVeicoli();  // Inizializza la tabella con tutti i dati
-        });
-    </script>
-    {% include './footer.html' %}
+        </script>
+        {% include './footer.html' %}
+    </div>
 </body>
 
 </html>

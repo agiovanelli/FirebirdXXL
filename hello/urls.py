@@ -12,5 +12,9 @@ urlpatterns = [
     path('filtra_revisioni/', views.filtra_revisioni, name='filtra_revisioni'),
     path('aggiungi/veicolo/', views.aggiungi_veicolo, name='aggiungi_veicolo'),
     path('aggiungi_targa/', views.aggiungi_targa, name='aggiungi_targa'),
-    path('aggiungi_revisione/', views.aggiungi_revisione, name='aggiungi_revisione')
+    path('aggiungi_revisione/', views.aggiungi_revisione, name='aggiungi_revisione'),
+    path('modifica_veicolo/', views.modifica_veicolo, name='modifica_veicolo'),
+    path('elimina_veicolo/', views.elimina_veicolo, name='elimina_veicolo'),
+    path('modifica_targa/', views.modifica_targa, name='modifica_targa'),
+    path('elimina_targa/', views.elimina_targa, name='elimina_targa')
 ]
