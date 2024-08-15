@@ -112,8 +112,24 @@ def revisione(request):
 
 def filtra_revisioni(request):
     if request.method == "GET":
-        # Rimuovi temporaneamente tutti i filtri
+        # Ottieni i parametri di filtro dalla richiesta
+        targa = request.GET.get('targa', '')
+        data_revisione = request.GET.get('data_revisione', '')
+        stato = request.GET.get('stato', '')
+        motivazione = request.GET.get('motivazione', '')
+
+        # Filtro base senza condizioni (se non specificato)
         revisioni = Revisione.objects.all().order_by('targa__targa', 'numero_revisione')
+
+        # Applica i filtri solo se i parametri sono specificati
+        if targa:
+            revisioni = revisioni.filter(targa__targa__icontains=targa)
+        if data_revisione:
+            revisioni = revisioni.filter(data_revisione=data_revisione)
+        if stato:
+            revisioni = revisioni.filter(stato=stato)
+        if motivazione and motivazione != "NULL":  # Assicurati di gestire l'opzione "NULL" del menu
+            revisioni = revisioni.filter(motivazione=motivazione)
 
         # Costruzione della lista dei dettagli delle revisioni
         revisioni_dettagli = []
@@ -146,12 +162,12 @@ def aggiungi_veicolo(request):
         # Controllo sul numero di telaio
         if len(numero_telaio) != 17 or not numero_telaio.isalnum():
             messages.error(request, "Il numero di telaio deve essere composto da 17 caratteri alfanumerici.")
-            return redirect('aggiungi')
+            return redirect('veicolo')
 
         # Controllo sulla data di produzione
         if data_produzione > str(date.today()):
             messages.error(request, "La data di produzione non può essere successiva alla data odierna.")
-            return redirect('aggiungi')
+            return redirect('veicolo')
 
         # Creazione del veicolo
         try:
@@ -161,8 +177,8 @@ def aggiungi_veicolo(request):
         except Exception as e:
             messages.error(request, f"Errore durante l'aggiunta del veicolo: {e}")
         
-        return redirect('aggiungi')
-    return render(request, 'hello/aggiungi.html')
+        return redirect('veicolo')
+    return render(request, 'hello/veicolo.html')
 
 def aggiungi_targa(request):
     if request.method == 'POST':
@@ -175,59 +191,59 @@ def aggiungi_targa(request):
         # Controlli sulla targa
         if not targa or len(targa) != 7 or not targa[:2].isalpha() or not targa[2:5].isdigit() or not targa[5:].isalpha():
             messages.error(request, "La targa deve essere composta da 2 lettere, 3 numeri e 2 lettere.")
-            return redirect('aggiungi')
+            return redirect('targa')
 
         prima_lettera = targa[0].upper()
         if prima_lettera not in 'ABCDEFG':
             messages.error(request, "La prima lettera della targa deve essere compresa tra A e G.")
-            return redirect('aggiungi')
+            return redirect('targa')
 
         try:
             data_emissione = datetime.strptime(data_emissione, '%Y-%m-%d')
         except ValueError:
             messages.error(request, "Data di emissione non valida.")
-            return redirect('aggiungi')
+            return redirect('targa')
 
         # Controlli sulla prima lettera e la data di emissione
         if prima_lettera == 'A' and not (datetime(1994, 1, 1) <= data_emissione <= datetime(1997, 12, 31)):
             messages.error(request, "La data di emissione per la lettera A deve essere tra 01/01/1994 e 31/12/1997.")
-            return redirect('aggiungi')
+            return redirect('targa')
         if prima_lettera == 'B' and not (datetime(1998, 1, 1) <= data_emissione <= datetime(2001, 12, 31)):
             messages.error(request, "La data di emissione per la lettera B deve essere tra 01/01/1998 e 31/12/2001.")
-            return redirect('aggiungi')
+            return redirect('targa')
         if prima_lettera == 'C' and not (datetime(2002, 1, 1) <= data_emissione <= datetime(2005, 12, 31)):
             messages.error(request, "La data di emissione per la lettera C deve essere tra 01/01/2002 e 31/12/2005.")
-            return redirect('aggiungi')
+            return redirect('targa')
         if prima_lettera == 'D' and not (datetime(2006, 1, 1) <= data_emissione <= datetime(2009, 12, 31)):
             messages.error(request, "La data di emissione per la lettera D deve essere tra 01/01/2006 e 31/12/2009.")
-            return redirect('aggiungi')
+            return redirect('targa')
         if prima_lettera == 'E' and not (datetime(2010, 1, 1) <= data_emissione <= datetime(2014, 12, 31)):
             messages.error(request, "La data di emissione per la lettera E deve essere tra 01/01/2010 e 31/12/2014.")
-            return redirect('aggiungi')
+            return redirect('targa')
         if prima_lettera == 'F' and not (datetime(2015, 1, 1) <= data_emissione <= datetime(2018, 12, 31)):
             messages.error(request, "La data di emissione per la lettera F deve essere tra 01/01/2015 e 31/12/2018.")
-            return redirect('aggiungi')
+            return redirect('targa')
         if prima_lettera == 'G' and data_emissione < datetime(2019, 1, 1):
             messages.error(request, "La data di emissione per la lettera G deve essere dal 01/01/2019 in poi.")
-            return redirect('aggiungi')
+            return redirect('targa')
 
         # Verifica che il numero di telaio esista e che non abbia già una targa assegnata
         try:
             veicolo = Veicolo.objects.get(numero_telaio=numero_telaio)
         except Veicolo.DoesNotExist:
             messages.error(request, "Il numero di telaio inserito non esiste.")
-            return redirect('aggiungi')
+            return redirect('targa')
 
         if TargaAttiva.objects.filter(numero_telaio=numero_telaio).exists():
             messages.error(request, "Il veicolo ha già una targa assegnata.")
-            return redirect('aggiungi')
+            return redirect('targa')
 
         # Verifica che la data di emissione non sia antecedente alla data di produzione del veicolo
         dp = veicolo.data_produzione.strftime('%Y-%m-%d')
         data_produzione = datetime.strptime(dp, '%Y-%m-%d')
         if data_emissione < data_produzione:
             messages.error(request, "La data di emissione della targa non può essere antecedente alla data di produzione del veicolo.")
-            return redirect('aggiungi')
+            return redirect('targa')
 
         # Creazione della targa
         try:    
@@ -239,8 +255,8 @@ def aggiungi_targa(request):
         except Exception as e:
             messages.error(request, f"Errore durante l'aggiunta della targa: {e}")
 
-        return redirect('aggiungi')
-    return render(request, 'hello/aggiungi.html')
+        return redirect('targa')
+    return render(request, 'hello/targa.html')
 
 
 def aggiungi_revisione(request):
@@ -250,54 +266,46 @@ def aggiungi_revisione(request):
         stato = request.POST.get('mostra_div')
         menu = request.POST.get('menu')
 
-        # Log input values
-        print(f"Received data - Targa: {targa_input}, Data Revisione: {data_ultima_revisione}, Stato: {stato}, Menu: {menu}")
-
         # Controllo che la targa esista
         try:
             targa = Targa.objects.get(targa=targa_input)
-            print(f"Targa found: {targa}")
         except Targa.DoesNotExist:
             messages.error(request, "La targa non esiste.")
-            return redirect('aggiungi')
+            return redirect('revisione')
 
         # Conversione della data
         try:
             data_ultima_revisione_dt = datetime.strptime(data_ultima_revisione, "%Y-%m-%d").date()
-            print(f"Converted data revisione: {data_ultima_revisione_dt}")
         except ValueError:
             messages.error(request, "La data dell'ultima revisione non è valida.")
-            return redirect('aggiungi')
+            return redirect('revisione')
 
         # Controllo che la data dell'ultima revisione non sia nel futuro
         if data_ultima_revisione_dt > datetime.now().date():
             messages.error(request, "La data dell'ultima revisione non può essere nel futuro.")
-            return redirect('aggiungi')
+            return redirect('revisione')
 
         # Controllo che la data dell'ultima revisione non sia antecedente alla data della revisione precedente
         ultime_revisioni = Revisione.objects.filter(targa=targa).order_by("-numero_revisione")
         if ultime_revisioni.exists():
             ultima_revisione = ultime_revisioni.first()
-            print(f"Ultima revisione: {ultima_revisione}")
             if data_ultima_revisione_dt <= ultima_revisione.data_revisione:
                 messages.error(request, "La data dell'ultima revisione non può essere antecedente alla revisione precedente.")
-                return redirect('aggiungi')
+                return redirect('revisione')
 
         # Determinazione del numero di revisione
         try:
             numero_revisione = 1
             if ultime_revisioni.exists():
                 numero_revisione = ultime_revisioni.first().numero_revisione + 1  # Conversione in intero
-            print(f"Numero revisione: {numero_revisione}")
 
             # Conversione dello stato
             stato_db = "positivo" if stato == 'true' else "negativo"
-            print(f"Stato DB: {stato_db}")
 
             # Se la revisione non è superata, la motivazione non può essere vuota
             if stato == 'false' and (not menu or menu == ""):
                 messages.error(request, "Se la revisione non è superata, deve essere fornita una motivazione.")
-                return redirect('aggiungi')
+                return redirect('revisione')
 
             revisione = Revisione(
                 targa=targa,
@@ -307,14 +315,12 @@ def aggiungi_revisione(request):
                 numero_revisione=numero_revisione
             )
             revisione.save()
-            print("Revisione salvata correttamente")
             messages.success(request, "Revisione aggiunta con successo!")
         except Exception as e:
             messages.error(request, f"Errore durante l'aggiunta della revisione: {str(e)}")
-            print(f"Errore durante il salvataggio: {str(e)}")
 
-        return redirect('aggiungi')
-    return render(request, 'hello/aggiungi.html')
+        return redirect('revisione')
+    return render(request, 'hello/revisione.html')
 
 @csrf_exempt
 def modifica_veicolo(request):
@@ -362,6 +368,9 @@ def modifica_veicolo(request):
                 # Ottieni il veicolo esistente
                 veicolo_esistente = get_object_or_404(Veicolo, numero_telaio=numero_telaio_old)
 
+                # Elimina il veicolo esistente
+                veicolo_esistente.delete()
+                
                 # Aggiorna il veicolo con la nuova PK
                 veicolo_nuovo = Veicolo(
                     numero_telaio=numero_telaio_new,
@@ -386,9 +395,6 @@ def modifica_veicolo(request):
                     targa_restituita.save()
                 except TargaRestituita.DoesNotExist:
                     pass
-
-                # Elimina il veicolo esistente
-                veicolo_esistente.delete()
 
             return JsonResponse({'success': True, 'message': 'Veicolo modificato con successo.'})
         except Exception as e:
@@ -515,11 +521,139 @@ def elimina_targa(request):
         targa_obj = get_object_or_404(Targa, targa=targa)
         
         try:
-            targa_obj.delete()
             TargaAttiva.objects.filter(targa=targa).delete()
             TargaRestituita.objects.filter(targa=targa).delete()
+            targa_obj.delete()
             return JsonResponse({'status': 'success', 'message': 'Targa eliminata con successo.'})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': f'Errore nell\'eliminazione della targa: {e}'})
 
     return JsonResponse({'status': 'error', 'message': 'Metodo non consentito.'})
+
+
+@csrf_exempt
+def modifica_revisione(request):
+    if request.method == 'POST':
+        try:
+            # Recupera i dati dalla richiesta POST
+            targa_str = request.POST.get('targa')
+            print(f"Targa: {targa_str}")
+            numero_revisione = request.POST.get('numero_revisione')
+            print(f"Numero Revisione: {numero_revisione}")
+            data_revisione = request.POST.get('data_revisione')
+            print(f"Data Revisione: {data_revisione}")
+            stato = request.POST.get('stato')
+            print(f"Stato: {stato}")
+            motivazione = request.POST.get('motivazione')
+            print(f"Motivazione: {motivazione}")
+
+            # Verifica che tutti i parametri siano presenti
+            if not targa_str or not numero_revisione or not data_revisione:
+                raise ValueError("Tutti i parametri devono essere forniti.")
+
+            # Converti la data se necessario
+            try:
+                data_revisione = datetime.strptime(data_revisione, '%Y-%m-%d').date()
+            except ValueError:
+                raise ValueError("Formato della data non valido. Usa YYYY-MM-DD.")
+
+            # Recupera l'istanza della Targa
+            targa = get_object_or_404(Targa, targa=targa_str)
+
+            # Recupera la revisione da aggiornare
+            revisione = get_object_or_404(Revisione, targa=targa, numero_revisione=numero_revisione)
+            revisione_id = revisione.id
+
+            print(f"Revisione trovata: ID {revisione_id}")
+
+            # Validazione: se lo stato è positivo, la motivazione deve essere vuota
+            if stato == 'positivo' and motivazione:
+                messages.error(request, "Non è possibile specificare una motivazione se lo stato è positivo.")
+                return JsonResponse({'success': False, 'error': 'La motivazione non deve essere specificata se lo stato è positivo.'})
+
+            # Validazione: se lo stato è negativo, la motivazione è obbligatoria
+            if stato == 'negativo' and not motivazione:
+                messages.error(request, "È necessario specificare una motivazione se lo stato è negativo.")
+                return JsonResponse({'success': False, 'error': 'La motivazione è obbligatoria se lo stato è negativo.'})
+
+            # Verifica che la revisione attuale non sia incoerente con le revisioni precedenti
+            revisione_precedente = Revisione.objects.filter(
+                targa=targa,
+                numero_revisione__lt=numero_revisione
+            ).order_by('-numero_revisione').first()
+
+            if revisione_precedente:
+                print(f"Revisione precedente trovata: ID {revisione_precedente.id}, Numero Revisione: {revisione_precedente.numero_revisione}")
+                if data_revisione < revisione_precedente.data_revisione:
+                    messages.error(request, "La data della revisione non può essere precedente alla revisione precedente.")
+                    return JsonResponse({'success': False, 'error': 'Data revisione non valida.'})
+
+            # Verifica che la revisione attuale non sia incoerente con le revisioni successive
+            revisione_successiva = Revisione.objects.filter(
+                targa=targa,
+                numero_revisione__gt=numero_revisione
+            ).order_by('numero_revisione').first()
+
+            if revisione_successiva:
+                print(f"Revisione successiva trovata: ID {revisione_successiva.id}, Numero Revisione: {revisione_successiva.numero_revisione}")
+                if data_revisione > revisione_successiva.data_revisione:
+                    messages.error(request, "La data della revisione non può essere successiva alla revisione successiva.")
+                    return JsonResponse({'success': False, 'error': 'Data revisione non valida.'})
+
+            # Aggiorna i campi della revisione
+            revisione.data_revisione = data_revisione
+            revisione.stato = stato
+            revisione.motivazione = motivazione if stato == 'negativo' else ''
+
+            # Salva le modifiche nel database
+            revisione.save()
+
+            # Aggiungi un messaggio di successo
+            messages.success(request, "Revisione aggiornata con successo.")
+            return JsonResponse({'success': True})
+
+        except Exception as e:
+            print(f"Errore durante l'aggiornamento della revisione: {str(e)}")
+            messages.error(request, "Si è verificato un errore durante l'aggiornamento della revisione.")
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    # Se il metodo non è POST, aggiungi un messaggio di errore
+    messages.error(request, "Metodo non valido.")
+    return JsonResponse({'success': False, 'error': 'Metodo non valido'})
+
+
+
+
+def elimina_revisione(request):
+    print("Funzione elimina_revisione chiamata")
+    if request.method == 'POST':
+        try:
+            # Recupera i parametri targa e numero revisione dal POST
+            targa = request.POST.get('targa')
+            numero_revisione = int(request.POST.get('numero_revisione'))
+
+            print(f"Ricevuto: targa={targa}, numero_revisione={numero_revisione}")
+
+            # Usa una transazione per assicurarti che tutte le operazioni siano atomiche
+            with transaction.atomic():
+                # Cerca la revisione da eliminare usando targa e numero revisione
+                revisione = get_object_or_404(Revisione, targa=targa, numero_revisione=numero_revisione)
+
+                # Elimina la revisione
+                revisione.delete()
+
+                # Aggiorna il numero di revisione per le revisioni successive
+                revisioni_successive = Revisione.objects.filter(targa=targa, numero_revisione__gt=numero_revisione)
+                for rev in revisioni_successive:
+                    rev.numero_revisione -= 1
+                    rev.save()
+
+            # Risposta di successo
+            return JsonResponse({'success': True})
+
+        except Exception as e:
+            # In caso di errore, restituisci una risposta di errore
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    # Se il metodo non è POST, restituisci un errore
+    return JsonResponse({'success': False, 'error': 'Metodo non valido'})

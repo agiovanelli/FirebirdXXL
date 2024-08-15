@@ -16,5 +16,7 @@ urlpatterns = [
     path('modifica_veicolo/', views.modifica_veicolo, name='modifica_veicolo'),
     path('elimina_veicolo/', views.elimina_veicolo, name='elimina_veicolo'),
     path('modifica_targa/', views.modifica_targa, name='modifica_targa'),
-    path('elimina_targa/', views.elimina_targa, name='elimina_targa')
+    path('elimina_targa/', views.elimina_targa, name='elimina_targa'),
+    path('modifica_revisione/', views.modifica_revisione, name='modifica_revisione'),
+    path('elimina_revisione/', views.elimina_revisione, name='elimina_revisione')
 ]

@@ -69,18 +69,18 @@
             <h2 style="text-align: center;">Ricerca</h2><br>
             <form id="formRicerca" method="post">
                 {% csrf_token %}
-                <label for="richiesta">Targa</label><br>
-                <input type="text" id="targa" /><br><br>
-                <label for="richiesta">Data ultima revisione</label><br>
-                <input type="date" id="dataRev" name="dataRev" /><br><br>
-                <label for="richiesta">Superata</label><br>
-                <input type="radio" id="AssSi" name="Ass" value="positivo">
+                <label for="targa">Targa</label><br>
+                <input type="text" id="targa" name="targa" /><br><br>
+                <label for="dataRev">Data ultima revisione</label><br>
+                <input type="date" id="dataRev" name="data_revisione" /><br><br>
+                <label for="AssSi">Superata</label><br>
+                <input type="radio" id="AssSi" name="stato" value="positivo">
                 <label for="AssSi">Si</label><br>
-                <input type="radio" id="AssNo" name="Ass" value="negativo">
+                <input type="radio" id="AssNo" name="stato" value="negativo">
                 <label for="AssNo">No</label><br>
                 <div id="opzioneVisuale2">
                     <br><label for="menu">Seleziona un'opzione</label><br>
-                    <select style="width: 100%;" name="menu" id="menu">
+                    <select style="width: 100%;" name="motivazione" id="menu">
                         <option value="NULL"></option>
                         <option value="Pastiglie dei freni usurate">Pastiglie dei freni usurate</option>
                         <option value="Luci non funzionanti">Luci non funzionanti</option>
@@ -91,7 +91,7 @@
                         <option value="Parabrezza scheggiato">Parabrezza scheggiato</option>
                     </select><br>
                 </div><br>
-                <input style="width: 50%;" type="submit" value="Azzera filtri" />
+                <input id="azzeraFiltri" style="width: 50%;" type="submit" value="Azzera filtri" />
             </form><br>
             <div>
                 <a href="{% url 'aggiungi' %}?content=3" class="buttonP">Aggiungi revisione</a>
@@ -169,14 +169,14 @@
                             <th>Targa</th>
                             <th>Numero Revisione</th>
                             <th>Data ultima revisione</th>
-                            <th>Stato</th>
+                            <th>Esito</th>
                             <th>Motivazione</th>
                             <th>Azioni</th>
                         </tr>
                     </thead>
                     <tbody id="tabella-revisioni">
                         {% for revisione in revisioni %}
-                        <tr>
+                        <tr data-targa="{{ revisione.targa }}" data-numero-revisione="{{ revisione.numero_revisione }}">
                             <td>{{ revisione.targa }}</td>
                             <td>{{ revisione.numero_revisione }}</td>
                             <td>{{ revisione.data_revisione }}</td>
@@ -197,77 +197,304 @@
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
-            function formatDateToDisplay(dateString) {
-                if (!dateString) return '';  // Se dateString è undefined o null, ritorna una stringa vuota
-                const parts = dateString.split('-');
-                if (parts.length === 3) {
-                    return `${parts[2]}-${parts[1]}-${parts[0]}`;
+            $(document).ready(function () {
+                function formatDateToDisplay(dateString) {
+                    if (!dateString) return '';  // Se dateString è undefined o null, ritorna una stringa vuota
+                    const parts = dateString.split('-');
+                    if (parts.length === 3) {
+                        return `${parts[2]}-${parts[1]}-${parts[0]}`;
+                    }
+                    return dateString;
                 }
-                return dateString;
-            }
 
-            function fetchRevisioni() {
-                console.log("fetchRevisioni chiamata");  // Log per verificare se la funzione viene chiamata
+                function convertDateFormat(dateStr) {
+                    var dateParts = dateStr.split('/');
+                    return dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
+                }
 
-                var targa = $('#targa').val();
-                var dataRevisione = $('#dataRev').val();
-                var stato = $('input[name="Ass"]:checked').val();
-                var motivazione = $('#menu').val();
+                function fetchRevisioni() {
+                    console.log("fetchRevisioni chiamata");
 
-                $.ajax({
-                    url: '{% url "filtra_revisioni" %}',
-                    data: {
-                        'targa': targa,
-                        'data_revisione': dataRevisione,
-                        'stato': stato,
-                        'motivazione': motivazione,
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-                        console.log("Dati ricevuti:", data);  // Log dei dati ricevuti per verificare che l'AJAX funzioni
+                    var targa = $('#targa').val();
+                    var dataRevisione = $('#dataRev').val();
+                    var stato = $('input[name="stato"]:checked').val();
+                    var motivazione = $('#menu').val();
 
-                        var revisioni = data.revisioni;
-                        var tbody = $('#tabella-revisioni');
-                        tbody.empty();  // Pulisci il contenuto della tabella
+                    $.ajax({
+                        url: '{% url "filtra_revisioni" %}',
+                        data: {
+                            'targa': targa,
+                            'data_revisione': dataRevisione,
+                            'stato': stato,
+                            'motivazione': motivazione,
+                        },
+                        dataType: 'json',
+                        success: function (data) {
 
-                        if (revisioni.length === 0) {
-                            console.log("Nessuna revisione trovata");
-                        } else {
-                            for (var i = 0; i < revisioni.length; i++) {
-                                var revisione = revisioni[i];
-                                var row = '<tr>' +
-                                    '<td>' + revisione.targa + '</td>' +
-                                    '<td>' + revisione.numero_revisione + '</td>' +
-                                    '<td>' + formatDateToDisplay(revisione.data_revisione) + '</td>' +
-                                    '<td>' + revisione.stato + '</td>' +
-                                    '<td>' + (revisione.motivazione || '') + '</td>' +
-                                    '<td>' +
-                                    '<button class="btn btn-primary modifica">Modifica</button>' +
-                                    '<button class="btn btn-danger elimina">Elimina</button>' +
-                                    '<button class="btn btn-success conferma d-none">Conferma</button>' +
-                                    '<button class="btn btn-secondary annulla d-none">Annulla</button>' +
-                                    '</td>' +
-                                    '</tr>';
-                                tbody.append(row);
+                            var revisioni = data.revisioni;
+                            var tbody = $('#tabella-revisioni');
+                            tbody.empty();  // Pulisci il contenuto della tabella
+
+                            if (revisioni.length === 0) {
+                                console.log("Nessuna revisione trovata");
+                            } else {
+                                for (var i = 0; i < revisioni.length; i++) {
+                                    var revisione = revisioni[i];
+                                    var row = '<tr data-targa="' + revisione.targa + '" data-numero-revisione="' + revisione.numero_revisione + '">' +
+                                        '<td>' + revisione.targa + '</td>' +
+                                        '<td>' + revisione.numero_revisione + '</td>' +
+                                        '<td>' + revisione.data_revisione + '</td>' +
+                                        '<td>' + revisione.stato + '</td>' +
+                                        '<td>' + revisione.motivazione + '</td>' +
+                                        '<td>' +
+                                        '<button class="btn btn-primary modifica">Modifica</button>' +
+                                        '<button class="btn btn-danger elimina">Elimina</button>' +
+                                        '<button class="btn btn-success conferma d-none">Conferma</button>' +
+                                        '<button class="btn btn-secondary annulla d-none">Annulla</button>' +
+                                        '</td>' +
+                                        '</tr>';
+                                    tbody.append(row);
+                                }
+                            }
+                        },
+                    });
+                }
+
+                // Event listeners
+                $('#targa, #dataRev, #menu, input[name="Ass"]').on('input change', fetchRevisioni);
+
+                $('#azzeraFiltri').on('click', function () {
+                    $('#targa').val('');
+                    $('#dataRev').val('');
+                    $('#menu').val('');
+                    $('input[name="Ass"]').prop('checked', false);
+                    fetchRevisioni();
+                });
+
+                fetchRevisioni();  // Inizializza la tabella con tutti i dati
+
+                $(document).on('click', '.modifica', function () {
+                    var row = $(this).closest("tr");
+
+                    // Salva i valori originali prima della modifica
+                    row.data('original-content', {
+                        targa: row.find("td:eq(0)").text().trim(),
+                        numeroRevisione: row.find("td:eq(1)").text().trim(),
+                        dataRevisione: row.find("td:eq(2)").text().trim(),
+                        stato: row.find("td:eq(3)").text().trim(),
+                        motivazione: row.find("td:eq(4)").text().trim()
+                    });
+
+                    // Itera su tutte le celle della riga
+                    row.find("td").each(function (index) {
+                        if (index !== 5) {  // Escludi la sesta colonna (indice 5), che è "Azioni"
+                            var content = $(this).text().trim();
+
+                            if (index === 0) {  // Colonna "Targa" (non modificabile)
+                                $(this).html('<span class="targa">' + content + '</span>');  // Usa un elemento span per mantenere il valore
+                            } else if (index === 1) {  // Colonna "Numero Revisione" (non modificabile)
+                                $(this).html('<span class="numero-revisione">' + content + '</span>');  // Usa un elemento span per mantenere il valore
+                            } else if (index === 2) {  // Colonna "Data Revisione"
+                                // Converte la data in formato yyyy-mm-dd per l'input di tipo date
+                                var dateValue = convertDateFormat(content);
+                                $(this).html('<input type="date" class="form-control" value="' + dateValue + '">');
+                            } else if (index === 3) {  // Colonna "Stato"
+                                // Creazione del menù a tendina per Stato
+                                var statoDropdown = '<select class="form-control stato-dropdown">' +
+                                    '<option value="positivo"' + (content === 'positivo' ? ' selected' : '') + '>positivo</option>' +
+                                    '<option value="negativo"' + (content === 'negativo' ? ' selected' : '') + '>negativo</option>' +
+                                    '</select>';
+                                $(this).html(statoDropdown);
+                            } else if (index === 4) {  // Colonna "Motivazione"
+                                // Creazione del menù a tendina per Motivazione
+                                var motivazioneDropdown = '<select class="form-control motivazione-dropdown">' +
+                                    '<option value="Pastiglie dei freni usurate">Pastiglie dei freni usurate</option>' +
+                                    '<option value="Luci non funzionanti">Luci non funzionanti</option>' +
+                                    '<option value="Pneumatici rovinati">Pneumatici rovinati</option>' +
+                                    '<option value="Emissioni nocive superano i limiti">Emissioni nocive superano i limiti</option>' +
+                                    '<option value="Sterzo non funzionante">Sterzo non funzionante</option>' +
+                                    '<option value="Freno a mano usurato">Freno a mano usurato</option>' +
+                                    '<option value="Parabrezza scheggiato">Parabrezza scheggiato</option>' +
+                                    '</select>';
+                                $(this).html(motivazioneDropdown);
+
+                                // Imposta il valore del menù a tendina sulla motivazione attuale
+                                $(this).find('select').val(content);
+
+                                // Nasconde il dropdown se lo stato non è negativo
+                                if (row.find('.stato-dropdown').val() !== 'negativo') {
+                                    $(this).find('select').hide();
+                                }
+                            } else {
+                                $(this).html('<input type="text" class="form-control" value="' + content + '">');
                             }
                         }
-                    },
+                    });
+
+                    // Nascondi i pulsanti "Modifica" e "Elimina", mostra "Conferma" e "Annulla"
+                    row.find(".modifica, .elimina").addClass("d-none");
+                    row.find(".conferma, .annulla").removeClass("d-none");
+
+                    // Gestione della visualizzazione del menù a tendina per Motivazione in base allo Stato
+                    row.find('.stato-dropdown').on('change', function () {
+                        var stato = $(this).val();
+                        var motivazioneCell = row.find('td:eq(4) select'); // Seleziona il menù a tendina Motivazione
+
+                        if (stato === 'negativo') {
+                            motivazioneCell.show();
+                        } else {
+                            motivazioneCell.hide();
+                        }
+                    });
                 });
-            }
 
-            // Event listeners
-            $('#targa, #dataRev, #menu, input[name="Ass"]').on('input change', fetchRevisioni);
+                $(document).on('click', '.annulla', function () {
+                    var row = $(this).closest("tr");
 
-            $('#azzeraFiltri').on('click', function () {
-                $('#targa').val('');
-                $('#dataRev').val('');
-                $('#menu').val('');
-                $('input[name="Ass"]').prop('checked', false);
-                fetchRevisioni();
+                    // Ripristina i valori originali
+                    var originalContent = row.data('original-content');
+
+                    row.find("td").each(function (index) {
+                        if (index === 0) {  // Colonna "Targa"
+                            $(this).text(originalContent.targa);
+                        } else if (index === 1) {  // Colonna "Numero Revisione"
+                            $(this).text(originalContent.numeroRevisione);
+                        } else if (index === 2) {  // Colonna "Data Revisione"
+                            $(this).text(originalContent.dataRevisione);
+                        } else if (index === 3) {  // Colonna "Stato"
+                            $(this).text(originalContent.stato);
+                        } else if (index === 4) {  // Colonna "Motivazione"
+                            $(this).text(originalContent.motivazione);
+                        }
+                    });
+
+                    // Nascondi i pulsanti "Conferma" e "Annulla", mostra "Modifica" e "Elimina"
+                    row.find(".modifica, .elimina").removeClass("d-none");
+                    row.find(".conferma, .annulla").addClass("d-none");
+                });
+
+                $(document).on('click', '.conferma', function () {
+                    var row = $(this).closest("tr");
+
+                    var targa = row.find('.targa').text();
+                    var numeroRevisione = row.find('.numero-revisione').text();
+                    var dataRevisione = row.find('input').val();
+                    var stato = row.find('.stato-dropdown').val();
+                    var motivazione = row.find('.motivazione-dropdown').val();
+
+                    $.ajax({
+                        url: '{% url "modifica_revisione" %}',
+                        method: 'POST',
+                        data: {
+                            'targa': targa,
+                            'numero_revisione': numeroRevisione,
+                            'data_revisione': dataRevisione,
+                            'stato': stato,
+                            'motivazione': motivazione,
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                // Imposta un flag nel localStorage per indicare che la modifica è stata completata
+                                localStorage.setItem('revisioneSuccesso', 'true');
+                                window.location.reload(); // Ricarica la pagina senza chiedere conferma
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Errore durante l\'aggiornamento',
+                                    text: response.error,
+                                    showConfirmButton: true,
+                                    allowOutsideClick: false
+                                });
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Errore durante la richiesta',
+                                showConfirmButton: true,
+                                allowOutsideClick: false
+                            });
+                        }
+                    });
+                });
+
+                // Mostra il messaggio di successo solo dopo il refresh della pagina
+                $(document).ready(function () {
+                    if (localStorage.getItem('revisioneSuccesso') === 'true') {
+                        localStorage.removeItem('revisioneSuccesso'); // Rimuove il flag prima di mostrare il popup
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Revisione aggiornata con successo!',
+                            showConfirmButton: true,
+                            allowOutsideClick: false
+                        });
+                    }
+                });
+
+
+
+                $(document).on('click', '.elimina', function () {
+                    var row = $(this).closest("tr");
+                    var targa = row.data('targa');
+                    var numero_revisione = row.data('numero-revisione');
+                    console.log("Dati inviati: ", targa, numero_revisione);
+
+                    Swal.fire({
+                        title: 'Sei sicuro?',
+                        text: "Questa azione non può essere annullata!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sì, elimina!',
+                        cancelButtonText: 'Annulla'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                type: "POST",
+                                url: "{% url 'elimina_revisione' %}",
+                                data: {
+                                    targa: targa,
+                                    numero_revisione: numero_revisione,
+                                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                                },
+                                success: function (response) {
+                                    if (response.success) {
+                                        Swal.fire(
+                                            'Eliminata!',
+                                            'La revisione è stata eliminata.',
+                                            'success'
+                                        ).then(() => {
+                                            // Dopo che il messaggio è stato mostrato, ricarica la pagina
+                                            location.reload();
+                                        });
+                                    } else {
+                                        Swal.fire(
+                                            'Errore!',
+                                            response.error || 'Non è stato possibile eliminare la revisione.',
+                                            'error'
+                                        ).then(() => {
+                                            // Ricarica la pagina anche in caso di errore, se necessario
+                                            location.reload();
+                                        });
+                                    }
+                                },
+                                error: function () {
+                                    Swal.fire(
+                                        'Errore!',
+                                        'Si è verificato un problema con la richiesta al server.',
+                                        'error'
+                                    ).then(() => {
+                                        // Ricarica la pagina anche in caso di errore
+                                        location.reload();
+                                    });
+                                }
+                            });
+                        }
+                    });
+                });
             });
-
-            fetchRevisioni();  // Inizializza la tabella con tutti i dati
-
         </script>
 
         {% include './footer.html' %}

@@ -323,24 +323,51 @@
                     var row = $(this).closest('tr');
                     var numero_telaio = row.data('numero-telaio');
 
-                    if (confirm('Sei sicuro di voler eliminare questo veicolo?')) {
-                        $.ajax({
-                            url: '{% url "elimina_veicolo" %}',
-                            method: 'POST',
-                            data: { 'numero_telaio': numero_telaio, csrfmiddlewaretoken: '{{ csrf_token }}' },
-                            success: function (response) {
-                                if (response.success) {
-                                    row.remove();
-                                    location.reload();
-                                } else {
-                                    alert('Errore nell\'eliminazione del veicolo');
+                    Swal.fire({
+                        title: 'Sei sicuro?',
+                        text: "Questa azione non può essere annullata!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sì, elimina!',
+                        cancelButtonText: 'Annulla'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: '{% url "elimina_veicolo" %}',
+                                method: 'POST',
+                                data: {
+                                    'numero_telaio': numero_telaio,
+                                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                                },
+                                success: function (response) {
+                                    if (response.success) {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Eliminazione riuscita',
+                                            text: response.message
+                                        }).then(() => {
+                                            row.remove();
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Errore',
+                                            text: response.message
+                                        });
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Errore',
+                                        text: 'Errore nella richiesta AJAX: ' + error
+                                    });
                                 }
-                            },
-                            error: function (xhr, status, error) {
-                                console.error("AJAX Error: ", status, error);
-                            }
-                        });
-                    }
+                            });
+                        }
+                    });
                 });
             });
         </script>
