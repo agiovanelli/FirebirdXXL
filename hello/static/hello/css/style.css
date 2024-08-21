@@ -17,7 +17,7 @@ body {
 
 /* Header Styles */
 header {
-    background-color: rgb(43, 43, 143) !important;
+    background-color: rgb(25, 132, 214) !important;
     color: white !important;
     padding: 20px;
     position: relative;
@@ -32,6 +32,7 @@ header {
     justify-content: center;
     width: 100%;
 }
+
 
 #cambiologo {
     position: relative;
@@ -110,7 +111,7 @@ header {
 
 /* Sidebar Styles */
 #filtro {
-    background-color: rgb(43, 43, 143) !important;
+    background-color: rgb(25, 132, 214) !important;
     color: white !important;
     padding: 20px;
     width: 225px;
@@ -142,9 +143,13 @@ header {
     margin-bottom: 0;
 }
 
+.buttonP {
+    background-color: rgb(215, 117, 81);
+}
+
 /* Navigation Styles */
 nav {
-    background-color: rgb(43, 43, 143) !important;
+    background-color: rgb(25, 132, 214) !important;
     color: white !important;
     padding: 20px;
     width: 250px;
@@ -258,7 +263,7 @@ nav .centrato h2 {
 
 /* Footer Styles */
 footer {
-    background-color: rgb(207, 75, 27) !important;
+    background-color: rgb(215, 117, 81) !important;
     color: white !important;
     padding: 10px;
     text-align: center;
