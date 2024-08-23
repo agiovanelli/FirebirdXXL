@@ -15,7 +15,6 @@ body {
     height: 100vh;
 }
 
-/* Header Styles */
 header {
     background-color: rgb(25, 132, 214) !important;
     color: white !important;
@@ -252,6 +251,10 @@ nav .centrato h2 {
     flex: 1 0 auto;
     max-width: calc(100% - 475px);
     /* Limita la larghezza del contenuto */
+}
+
+.bg-custom {
+    background-color: rgb(25, 132, 214);
 }
 
 .scrollable-content {
