@@ -1,16 +1,18 @@
-html,
-body {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    height: 100%;
 }
 
 body {
+    margin: 0;
+    padding: 0;
     font-family: Arial, sans-serif;
     background-color: white;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
+    height: 100vh;
 }
 
 header {
@@ -18,7 +20,9 @@ header {
     color: white !important;
     padding: 20px;
     position: relative;
+    /* Cambiato */
     z-index: 1000;
+    /* Aggiunto */
 }
 
 .header-container {
@@ -28,10 +32,12 @@ header {
     width: 100%;
 }
 
+
 #cambiologo {
     position: relative;
     display: inline-block;
     margin-left: 20px;
+    /* Cambiato da 90px a 20px */
     margin-right: 10px;
 }
 
@@ -64,8 +70,8 @@ header {
 #cambio {
     position: relative;
     display: inline-block;
-    /*margin-left: 10px;
-    margin-right: 10px;*/
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 #cambio img {
@@ -108,13 +114,13 @@ header {
     color: white !important;
     padding: 20px;
     width: 225px;
+    height: calc(100vh - 70px);
     position: fixed;
     top: 70px;
     left: 0;
-    bottom: 0;
-    overflow-y: auto;
-    /* Permette lo scorrimento verticale */
+    /* Aggiunto */
     z-index: 900;
+    /* Aggiunto */
 }
 
 #filtro .contenitore-icone {
@@ -142,17 +148,18 @@ header {
 
 /* Navigation Styles */
 nav {
-    background-color: rgb(25, 132, 214);
+    background-color: rgb(25, 132, 214) !important;
     color: white !important;
     padding: 20px;
     width: 250px;
+    height: calc(100vh - 70px);
     position: fixed;
     top: 70px;
     right: 0;
-    bottom: 0;
-    overflow-y: auto;
-    /* Permette lo scorrimento verticale */
-    border-left: 1px solid rgb(215, 117, 81);
+    /* Aggiunto */
+    border-left: 1px solid rgb(40, 40, 131) !important;
+    z-index: 900;
+    /* Aggiunto */
 }
 
 nav .centrato h2 {
@@ -164,8 +171,8 @@ nav .centrato h2 {
     position: relative;
     display: inline-block;
     border: 1px solid white !important;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 20px;
+    margin-bottom: 25px;
     margin-top: 60px;
     text-align: center;
     cursor: pointer;
@@ -173,20 +180,19 @@ nav .centrato h2 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
-    justify-content: center;
     color: white !important;
 }
 
 .menu-item:hover {
-    background-color: rgb(215, 117, 81) !important;
+    background-color: rgb(207, 75, 27) !important;
 }
 
 .image-container {
-    margin-right: 40px;
+    margin-right: 10px;
 }
 
 .button {
-    background: rgb(215, 117, 81);
+    background: rgb(43, 43, 143) !important;
     border: none;
     cursor: pointer;
     outline: none;
@@ -194,6 +200,7 @@ nav .centrato h2 {
     width: 100%;
     height: 100%;
     text-align: center;
+    padding: 20px;
     color: white !important;
 }
 
@@ -224,7 +231,7 @@ nav .centrato h2 {
 .menu-item:hover,
 .menu-item:hover .button,
 .menu-item:hover .image-container {
-    background-color: rgb(215, 117, 81) !important;
+    background-color: rgb(207, 75, 27) !important;
 }
 
 .button:focus+.dropdown-content,
@@ -242,10 +249,19 @@ nav .centrato h2 {
     /* Spazio a destra per il nav */
     overflow-wrap: break-word;
     flex: 1 0 auto;
+    max-width: calc(100% - 475px);
+    /* Limita la larghezza del contenuto */
 }
 
-body {
-    overflow: auto;
+.bg-custom {
+    background-color: rgb(25, 132, 214);
+}
+
+.scrollable-content {
+    height: calc(100vh - 140px);
+    /* Altezza fissa */
+    overflow-y: auto;
+    /* Abilita lo scorrimento verticale */
 }
 
 /* Footer Styles */
@@ -329,6 +345,14 @@ tr {
     cursor: pointer;
 }
 
+html,
+body {
+    overflow: hidden;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 .delete-button {
     color: white !important;
     background: none;
@@ -384,7 +408,7 @@ td.imgcentr a img {
 }
 
 .elemento-menu {
-    background: rgb(215, 117, 81);
+    background: rgb(43, 43, 143) !important;
     position: relative;
     display: inline-block;
     border: 1px solid white !important;
@@ -435,7 +459,7 @@ td.imgcentr a img {
 }
 
 .link-bottone {
-    background: rgb(215, 117, 81);
+    background: rgb(43, 43, 143) !important;
     border: none;
     cursor: pointer;
     outline: none;
@@ -473,7 +497,7 @@ td.imgcentr a img {
 .elemento-menu:hover,
 .elemento-menu:hover .link-bottone,
 .elemento-menu:hover .contenitore-immagine {
-    background-color: rgb(215, 117, 81);
+    background-color: rgb(207, 75, 27) !important;
 }
 
 .link-bottone:focus+.menu-dropdown,
