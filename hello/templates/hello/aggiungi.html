@@ -43,16 +43,19 @@
     <script>
         }
     </script>
-
-    <header>
-        <div class="header-container">
-            <div id="cambiologo">
-                <a href="{% url 'home' %}"><img src="{% static 'hello/images/fenicebianca.png' %}" alt="icona fenice"
-                        class="icona" id="default"></a>
-                <a href="{% url 'home' %}"><img src="{% static 'hello/images/fenicearancione.png' %}" alt="icona fenice"
-                        class="icona" id="hover"></a>
+    <header class="text-white text-center py-3" style="background-color: #1E3A5F;">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div id="cambiologo" class="d-inline-block" style="margin-left: -70px;">
+                    <a href="{% url 'home' %}">
+                        <img src="{% static 'hello/images/fenicebianca.png' %}" alt="icona fenice" class="icona"
+                            id="default">
+                        <img src="{% static 'hello/images/fenicearancione.png' %}" alt="icona fenice" class="icona"
+                            id="hover">
+                    </a>
+                </div>
+                <h1 class="titolo">Aggiungi</h1>
             </div>
-            <h1 class="titolo">Aggiungi</h1>
         </div>
     </header>
 

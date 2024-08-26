@@ -36,15 +36,19 @@
 </head>
 
 <body>
-    <header>
-        <div class="header-container">
-            <div id="cambiologo">
-                <a href="{% url 'home' %}"><img src="{% static 'hello/images/fenicebianca.png' %}" alt="icona fenice"
-                        class="icona" id="default"></a>
-                <a href="{% url 'home' %}"><img src="{% static 'hello/images/fenicearancione.png' %}" alt="icona fenice"
-                        class="icona" id="hover"></a>
+    <header class="text-white text-center py-3" style="background-color: #1E3A5F;">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div id="cambiologo" class="d-inline-block" style="margin-left: -70px;">
+                    <a href="{% url 'home' %}">
+                        <img src="{% static 'hello/images/fenicebianca.png' %}" alt="icona fenice" class="icona"
+                            id="default">
+                        <img src="{% static 'hello/images/fenicearancione.png' %}" alt="icona fenice" class="icona"
+                            id="hover">
+                    </a>
+                </div>
+                <h1 class="titolo">Veicoli</h1>
             </div>
-            <h1 class="titolo">Veicoli</h1>
         </div>
     </header>
 
@@ -72,12 +76,12 @@
     <nav>
         <div class="centrato">
             <div class="menu-item">
-                <a href="{% url 'home' %}" class="button">
+                <a href="{% url 'home' %}" class="link-bottone">
                     <div class="image-container">
                         <div id="cambio">
-                            <img src="{% static 'hello/images/homebianca.png' %}" alt="icona targa" width="50"
+                            <img src="{% static 'hello/images/homebianca.png' %}" alt="icona home" width="50"
                                 height="50" id="default">
-                            <img src="{% static 'hello/images/homeblu.png' %}" alt="icona targa" width="50" height="50"
+                            <img src="{% static 'hello/images/homeblu.png' %}" alt="icona home" width="50" height="50"
                                 id="hover">
                         </div>
                     </div>
@@ -87,7 +91,7 @@
                 </div>
             </div>
             <div class="menu-item">
-                <a href="{% url 'targa' %}" class="button">
+                <a href="{% url 'targa' %}" class="link-bottone">
                     <div class="image-container">
                         <div id="cambio">
                             <img src="{% static 'hello/images/targabianca.png' %}" alt="icona targa" width="50"
@@ -102,7 +106,7 @@
                 </div>
             </div>
             <div class="menu-item">
-                <a href="{% url 'revisione' %}" class="button">
+                <a href="{% url 'revisione' %}" class="link-bottone">
                     <div class="image-container">
                         <div id="cambio">
                             <img src="{% static 'hello/images/revisionebianca.png' %}" alt="icona revisione" width="50"
@@ -119,10 +123,10 @@
         </div>
     </nav>
 
-    <div class="contenuto" class="container mt-5 pt-5 scrollable-content">
-        <div id="contenuto" class="container mt-5 pt-5 scrollable-content">
+
+    <div class="contenuto" class="container mt-2 pt-2 scrollable-content">
+        <div id="contenuto" class="container mt-2 pt-2 scrollable-content">
             <div class="centrato">
-                <h1>Lista Veicoli</h1>
                 {% if messages %}
                 {%for message in messages %}
                 <script>
