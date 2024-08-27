@@ -18,10 +18,10 @@
 </head>
 
 <body>
-    <header class="bg-primary text-white text-center py-3">
+    <header class="text-white text-center py-3" style="background-color: #1E3A5F;">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
-                <div id="cambiologo" class="d-inline-block">
+                <div id="cambiologo" class="d-inline-block" style="margin-left: -70px;">
                     <a href="{% url 'home' %}">
                         <img src="{% static 'hello/images/fenicebianca.png' %}" alt="icona fenice" class="icona"
                             id="default">
@@ -37,24 +37,6 @@
     <div id="filtro" class="bg-primary text-white p-3">
         <div class="centrato">
             <div class="contenitore-icone d-flex flex-column align-items-center">
-                <div id="cambio" class="my-4">
-                    <img class="iconeHome" src="{% static 'hello/images/fuocobianco.png' %}" alt="icona fuoco"
-                        width="100" height="100" id="default">
-                    <img class="iconeHome" src="{% static 'hello/images/fuocoarancione.png' %}" alt="icona fuoco"
-                        width="100" height="100" id="hover">
-                </div>
-                <div id="cambio" class="my-4">
-                    <img class="iconeHome" src="{% static 'hello/images/piubianco.png' %}" alt="icona piu" width="100"
-                        height="100" id="default">
-                    <img class="iconeHome" src="{% static 'hello/images/piuarancione.png' %}" alt="icona piu"
-                        width="100" height="100" id="hover">
-                </div>
-                <div id="cambio" class="my-4">
-                    <img class="iconeHome" src="{% static 'hello/images/uccellobianco.png' %}" alt="icona uccello"
-                        width="100" height="100" id="default">
-                    <img class="iconeHome" src="{% static 'hello/images/uccelloarancione.png' %}" alt="icona uccello"
-                        width="100" height="100" id="hover">
-                </div>
             </div>
         </div>
     </div>
@@ -103,7 +85,7 @@
         </div>
     </nav>
 
-    <div id="contenuto">
+    <div id="contenuto" class="container mt-2 pt-2 scrollable-content">
         <div class="centrato">
             <h1>Cos'è FirebirdXXL</h1>
             <p>Firebird è un sistema della Motorizzazione Civile per gestire i veicoli e le targhe.</p>

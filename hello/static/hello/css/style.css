@@ -110,7 +110,7 @@ header {
 
 /* Sidebar Styles */
 #filtro {
-    background-color: rgb(25, 132, 214) !important;
+    background-color: rgb(25, 132, 214);
     color: white !important;
     padding: 20px;
     width: 225px;
@@ -173,7 +173,7 @@ nav .centrato h2 {
     border: 1px solid white !important;
     padding: 20px;
     margin-bottom: 25px;
-    margin-top: 60px;
+    margin-top: 25px;
     text-align: center;
     cursor: pointer;
     border-radius: 10px;
