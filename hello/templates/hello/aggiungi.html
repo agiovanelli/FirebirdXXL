@@ -65,9 +65,10 @@
         </div>
     </div>
 
-    <nav>
+    <nav style="background-color: rgb(25, 132, 214);">
         <div class="centrato">
-            <div class="elemento-menu">
+            <!-- Primo elemento del menu -->
+            <div class="elemento-menu dropdown">
                 <a href="{% url 'home' %}" class="link-bottone">
                     <div class="contenitore-immagine">
                         <div class="cambio-immagine">
@@ -78,11 +79,13 @@
                         </div>
                     </div>
                 </a>
-                <div class="menu-dropdown">
-                    <span>Home</span>
+                <div class="dropdown-menu p-2 text-center">
+                    <a class="dropdown-item" href="#">Home</a>
                 </div>
             </div>
-            <div class="elemento-menu">
+
+            <!-- Secondo elemento del menu -->
+            <div class="elemento-menu dropdown">
                 <a href="{% url 'veicolo' %}" class="link-bottone">
                     <div class="contenitore-immagine">
                         <div class="cambio-immagine">
@@ -93,11 +96,13 @@
                         </div>
                     </div>
                 </a>
-                <div class="menu-dropdown">
-                    <span>Veicoli</span>
+                <div class="dropdown-menu p-2 text-center">
+                    <a class="dropdown-item" href="#">Veicoli</a>
                 </div>
             </div>
-            <div class="elemento-menu">
+
+            <!-- Terzo elemento del menu -->
+            <div class="elemento-menu dropdown">
                 <a href="{% url 'targa' %}" class="link-bottone">
                     <div class="contenitore-immagine">
                         <div class="cambio-immagine">
@@ -108,11 +113,13 @@
                         </div>
                     </div>
                 </a>
-                <div class="menu-dropdown">
-                    <span>Targhe</span>
+                <div class="dropdown-menu p-2 text-center">
+                    <a class="dropdown-item" href="#">Targhe</a>
                 </div>
             </div>
-            <div class="elemento-menu">
+
+            <!-- Quarto elemento del menu -->
+            <div class="elemento-menu dropdown">
                 <a href="{% url 'revisione' %}" class="link-bottone">
                     <div class="contenitore-immagine">
                         <div class="cambio-immagine">
@@ -123,12 +130,13 @@
                         </div>
                     </div>
                 </a>
-                <div class="menu-dropdown">
-                    <span>Revisioni</span>
+                <div class="dropdown-menu p-2 text-center">
+                    <a class="dropdown-item" href="#">Revisioni</a>
                 </div>
             </div>
         </div>
     </nav>
+
 
     <div id="contenutoAggiungi">
         <div id="contenuto">
