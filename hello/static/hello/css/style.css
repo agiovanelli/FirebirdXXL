@@ -116,10 +116,6 @@
     margin-bottom: 0;
 }
 
-.buttonP {
-    background-color: rgb(215, 117, 81);
-}
-
 /* Navigation Styles */
 nav {
     color: white !important;
@@ -194,24 +190,40 @@ footer {
 
 /* Table Styles */
 table {
-    display: table;
+    width: 100%;
     border-collapse: separate;
-    box-sizing: border-box;
-    text-indent: initial;
-    unicode-bidi: isolate;
+    /* Usa separate per applicare sticky */
+    border-spacing: 0;
 }
 
 thead {
-    display: table-row-group;
-    vertical-align: middle;
-    unicode-bidi: isolate;
-    border-color: inherit;
-    position: -webkit-sticky;
     position: sticky;
+    /* Imposta la posizione sticky per l'header */
+    top: -10px;
+    /* Assicura che l'header rimanga in cima */
+    background-color: white;
+    /* Assicurati che lo sfondo sia bianco per evitare sovrapposizioni */
+    z-index: 10;
+    /* Imposta un alto z-index per stare sopra altre righe */
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+    /* Aggiungi un'ombra per un effetto di profondità */
 }
 
 thead th {
+    position: sticky;
+    top: 0;
     height: 50px;
+    background-color: white;
+}
+
+th {
+    background-color: #ffffff;
+    /* Colore di sfondo dell'header per visibilità */
+    padding: 10px;
+    text-align: left;
+    /* Allinea il testo a sinistra */
+    border-bottom: 1px solid #ddd;
+    /* Aggiungi un bordo inferiore */
 }
 
 tbody {
@@ -404,36 +416,50 @@ td.imgcentr a img {
     opacity: 1;
 }
 
+/* Stile per il dropdown menu */
 .dropdown-menu {
     display: none;
     /* Nasconde il menu di default */
     position: absolute;
+    /* Necessario per il posizionamento */
     background-color: rgb(215, 117, 81);
+    /* Sfondo per il menu */
     min-width: 80px;
-    /* Riduce la larghezza del dropdown */
+    /* Larghezza minima del menu */
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1);
-    z-index: 200;
-    /* Imposta un z-index più alto */
+    /* Aggiungi un'ombra per effetto */
+    z-index: 100;
+    /* Assicura che sia sopra altri elementi */
     top: 100%;
+    /* Posiziona sotto il bottone */
     left: 50%;
     transform: translateX(-50%);
+    text-align: center;
+    /* Allinea il testo al centro */
 }
 
-.elemento-menu:hover .dropdown-menu,
-.link-bottone:hover+.dropdown-menu {
+/* Mostra il menu dropdown al passaggio del mouse */
+.elemento-menu:hover .dropdown-menu {
     display: block;
-    /* Mostra il menu al passaggio del mouse */
 }
 
+/* Mantieni il menu aperto quando ci si passa sopra */
+.dropdown-menu:hover {
+    display: block;
+}
+
+/* Stile per gli elementi del dropdown */
 .dropdown-menu .dropdown-item {
     color: black;
-    padding: 0px;
+    padding: 5px;
+    /* Aggiungi un po' di padding per lo spazio interno */
     text-decoration: none;
     display: block;
     cursor: pointer;
     text-align: center;
     /* Centro il testo all'interno degli item */
 }
+
 
 .sort {
     height: 20px;

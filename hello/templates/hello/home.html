@@ -59,41 +59,43 @@
                     <a class="dropdown-item" href="#">Veicoli</a>
                 </div>
             </div>
+        </div>
 
-            <!-- Secondo elemento del menu -->
-            <div class="elemento-menu dropdown">
-                <a href="{% url 'targa' %}" class="link-bottone">
-                    <div class="contenitore-immagine">
-                        <div class="cambio-immagine">
-                            <img src="{% static 'hello/images/targabianca.png' %}" alt="icona targa" width="50"
-                                height="50" class="img-default">
-                            <img src="{% static 'hello/images/targablu.png' %}" alt="icona targa" width="50" height="50"
-                                class="img-hover">
-                        </div>
+
+        <!-- Secondo elemento del menu -->
+        <div class="elemento-menu dropdown">
+            <a href="{% url 'targa' %}" class="link-bottone">
+                <div class="contenitore-immagine">
+                    <div class="cambio-immagine">
+                        <img src="{% static 'hello/images/targabianca.png' %}" alt="icona targa" width="50" height="50"
+                            class="img-default">
+                        <img src="{% static 'hello/images/targablu.png' %}" alt="icona targa" width="50" height="50"
+                            class="img-hover">
                     </div>
-                </a>
-                <div class="dropdown-menu p-2 text-center">
-                    <a class="dropdown-item" href="#">Targhe</a>
                 </div>
+            </a>
+            <div class="dropdown-menu p-2 text-center">
+                <a class="dropdown-item" href="#">Targhe</a>
             </div>
+        </div>
 
 
-            <!-- Terzo elemento del menu -->
-            <div class="elemento-menu dropdown">
-                <a href="{% url 'revisione' %}" class="link-bottone">
-                    <div class="contenitore-immagine">
-                        <div class="cambio-immagine">
-                            <img src="{% static 'hello/images/revisionebianca.png' %}" alt="icona targa" width="50"
-                                height="50" class="img-default">
-                            <img src="{% static 'hello/images/revisioneblu.png' %}" alt="icona targa" width="50"
-                                height="50" class="img-hover">
-                        </div>
+        <!-- Terzo elemento del menu -->
+        <div class="elemento-menu dropdown">
+            <a href="{% url 'revisione' %}" class="link-bottone">
+                <div class="contenitore-immagine">
+                    <div class="cambio-immagine">
+                        <img src="{% static 'hello/images/revisionebianca.png' %}" alt="icona targa" width="50"
+                            height="50" class="img-default">
+                        <img src="{% static 'hello/images/revisioneblu.png' %}" alt="icona targa" width="50" height="50"
+                            class="img-hover">
                     </div>
-                </a>
-                <div class="dropdown-menu p-2 text-center">
-                    <a class="dropdown-item" href="#">Revisioni</a>
                 </div>
+            </a>
+            <div class="dropdown-menu p-2 text-center">
+                <a class="dropdown-item" href="#">Revisioni</a>
             </div>
+        </div>
         </div>
     </nav>
 
