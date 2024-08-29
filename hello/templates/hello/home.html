@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -10,16 +10,15 @@
     {% load static %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'hello/css/style.css' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="d-flex flex-column min-vh-100 bg-white overflow-auto">
     <header class="text-white text-center py-3"
-        style="background-color: rgb(25, 132, 214); position: relative; z-index: 1000;">
+        style="position: relative; z-index: 1000; background-color: rgb(25, 132, 214);">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
                 <div id="cambiologo" class="d-inline-block" style="margin-left: -70px;">
@@ -36,14 +35,14 @@
     </header>
 
     <div id="filtro" style="background-color: rgb(25, 132, 214);">
-        <div>
-            <!-- Contenuto del div -->
+        <div class="centrato">
+            <form>
+            </form>
         </div>
     </div>
 
     <nav style="background-color: rgb(25, 132, 214);">
         <div class="centrato">
-            <!-- Primo elemento del menu -->
             <div class="elemento-menu dropdown">
                 <a href="{% url 'veicolo' %}" class="link-bottone">
                     <div class="contenitore-immagine">
@@ -56,7 +55,7 @@
                     </div>
                 </a>
                 <div class="dropdown-menu p-2 text-center">
-                    <a class="dropdown-item" href="#">Veicoli</a>
+                    <span class="dropdown-item">Veicoli</span>
                 </div>
             </div>
 
@@ -73,7 +72,7 @@
                     </div>
                 </a>
                 <div class="dropdown-menu p-2 text-center">
-                    <a class="dropdown-item" href="#">Targhe</a>
+                    <span class="dropdown-item">Targhe</span>
                 </div>
             </div>
 
@@ -90,7 +89,7 @@
                     </div>
                 </a>
                 <div class="dropdown-menu p-2 text-center">
-                    <a class="dropdown-item" href="#">Revisioni</a>
+                    <span class="dropdown-item">Revisioni</span>
                 </div>
             </div>
         </div>
@@ -131,7 +130,9 @@
                 inserimento (logico) delle modifiche.</p>
         </div>
 
+        <!-- Footer -->
         {% include './footer.html' %}
+    </div>
 </body>
 
 </html>

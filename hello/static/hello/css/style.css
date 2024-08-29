@@ -419,21 +419,33 @@ td.imgcentr a img {
 /* Stile per il dropdown menu */
 .dropdown-menu {
     display: none;
+    /* Nasconde il menu di default */
     position: absolute;
+    /* Necessario per il posizionamento */
     background-color: rgb(215, 117, 81);
+    /* Sfondo per il menu */
     min-width: 80px;
+    /* Larghezza minima del menu */
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1);
+    /* Aggiungi un'ombra per effetto */
     z-index: 100;
+    /* Assicura che sia sopra altri elementi */
     top: 100%;
+    /* Posiziona sotto il bottone */
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
     /* Allinea il testo al centro */
+    opacity: 0;
+    /* Inizialmente invisibile */
+    transition: opacity 0.3s ease;
+    /* Aggiunge una transizione fluida */
 }
 
-/* Mostra il menu dropdown al passaggio del mouse */
 .elemento-menu:hover .dropdown-menu {
     display: block;
+    opacity: 1;
+    /* Mostra il menu con una transizione */
 }
 
 /* Mantieni il menu aperto quando ci si passa sopra */
