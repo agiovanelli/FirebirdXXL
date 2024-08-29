@@ -17,8 +17,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 </head>
 
-<body>
-    <header class="text-white text-center py-3" style="background-color: #1E3A5F;">
+<body class="d-flex flex-column min-vh-100 bg-white overflow-auto">
+    <header class="text-white text-center py-3"
+        style="background-color: rgb(25, 132, 214); position: relative; z-index: 1000;">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
                 <div id="cambiologo" class="d-inline-block" style="margin-left: -70px;">
@@ -34,53 +35,58 @@
         </div>
     </header>
 
-    <div id="filtro" class="bg-primary text-white p-3">
-        <div class="centrato">
-            <div class="contenitore-icone d-flex flex-column align-items-center">
-            </div>
+    <div id="filtro" style="background-color: rgb(25, 132, 214);">
+        <div>
+            <!-- Contenuto del div -->
         </div>
     </div>
 
-    <nav class="bg-custom p-3">
+    <nav>
         <div class="centrato">
-            <div class="menu-item text-center mb-4">
-                <a href="{% url 'veicolo' %}" class="button d-block bg-primary text-white py-3">
-                    <div class="image-container mb-2">
-                        <div id="cambio">
-                            <img src="{% static 'hello/images/veicolobianco.png' %}" alt="icona veicolo" width="50"
-                                height="50" id="default">
-                            <img src="{% static 'hello/images/veicoloblu.png' %}" alt="icona veicolo" width="50"
-                                height="50" id="hover">
+            <div class="elemento-menu">
+                <a href="{% url 'veicolo' %}" class="link-bottone">
+                    <div class="contenitore-immagine">
+                        <div class="cambio-immagine">
+                            <img src="{% static 'hello/images/veicolobianco.png' %}" alt="icona targa" width="50"
+                                height="50" class="img-default">
+                            <img src="{% static 'hello/images/veicoloblu.png' %}" alt="icona targa" width="50"
+                                height="50" class="img-hover">
                         </div>
                     </div>
+                </a>
+                <div class="menu-dropdown">
                     <span>Veicoli</span>
-                </a>
+                </div>
             </div>
-            <div class="menu-item text-center mb-4">
-                <a href="{% url 'targa' %}" class="button d-block bg-primary text-white py-3">
-                    <div class="image-container mb-2">
-                        <div id="cambio">
+            <div class="elemento-menu">
+                <a href="{% url 'targa' %}" class="link-bottone">
+                    <div class="contenitore-immagine">
+                        <div class="cambio-immagine">
                             <img src="{% static 'hello/images/targabianca.png' %}" alt="icona targa" width="50"
-                                height="50" id="default">
+                                height="50" class="img-default">
                             <img src="{% static 'hello/images/targablu.png' %}" alt="icona targa" width="50" height="50"
-                                id="hover">
+                                class="img-hover">
                         </div>
                     </div>
+                </a>
+                <div class="menu-dropdown">
                     <span>Targhe</span>
-                </a>
+                </div>
             </div>
-            <div class="menu-item text-center mb-4">
-                <a href="{% url 'revisione' %}" class="button d-block bg-primary text-white py-3">
-                    <div class="image-container mb-2">
-                        <div id="cambio">
-                            <img src="{% static 'hello/images/revisionebianca.png' %}" alt="icona revisione" width="50"
-                                height="50" id="default">
-                            <img src="{% static 'hello/images/revisioneblu.png' %}" alt="icona revisione" width="50"
-                                height="50" id="hover">
+            <div class="elemento-menu">
+                <a href="{% url 'revisione' %}" class="link-bottone">
+                    <div class="contenitore-immagine">
+                        <div class="cambio-immagine">
+                            <img src="{% static 'hello/images/revisionebianca.png' %}" alt="icona targa" width="50"
+                                height="50" class="img-default">
+                            <img src="{% static 'hello/images/revisioneblu.png' %}" alt="icona targa" width="50"
+                                height="50" class="img-hover">
                         </div>
                     </div>
-                    <span>Revisioni</span>
                 </a>
+                <div class="menu-dropdown">
+                    <span>Revisioni</span>
+                </div>
             </div>
         </div>
     </nav>

@@ -4,27 +4,6 @@
     box-sizing: border-box;
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: white;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-}
-
-header {
-    background-color: rgb(25, 132, 214) !important;
-    color: white !important;
-    padding: 20px;
-    position: relative;
-    /* Cambiato */
-    z-index: 1000;
-    /* Aggiunto */
-}
-
 .header-container {
     display: flex;
     align-items: center;
@@ -32,12 +11,10 @@ header {
     width: 100%;
 }
 
-
 #cambiologo {
     position: relative;
     display: inline-block;
     margin-left: 20px;
-    /* Cambiato da 90px a 20px */
     margin-right: 10px;
 }
 
@@ -110,7 +87,6 @@ header {
 
 /* Sidebar Styles */
 #filtro {
-    background-color: rgb(25, 132, 214);
     color: white !important;
     padding: 20px;
     width: 225px;
@@ -118,9 +94,7 @@ header {
     position: fixed;
     top: 70px;
     left: 0;
-    /* Aggiunto */
     z-index: 900;
-    /* Aggiunto */
 }
 
 #filtro .contenitore-icone {
@@ -156,35 +130,38 @@ nav {
     position: fixed;
     top: 70px;
     right: 0;
-    /* Aggiunto */
     border-left: 1px solid rgb(40, 40, 131) !important;
     z-index: 900;
-    /* Aggiunto */
 }
 
 nav .centrato h2 {
     color: white !important;
 }
 
-.menu-item {
-    background: rgb(43, 43, 143) !important;
-    position: relative;
-    display: inline-block;
-    border: 1px solid white !important;
-    padding: 20px;
-    margin-bottom: 25px;
-    margin-top: 25px;
-    text-align: center;
+.link-bottone {
+    background: rgb(167, 84, 28) !important;
+    border: none;
     cursor: pointer;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
+    outline: none;
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding: 20px;
     color: white !important;
+    transition: background-color 0.3s ease;
+    /* Transizione liscia */
 }
 
-.menu-item:hover {
-    background-color: rgb(207, 75, 27) !important;
+.menu-item:hover .link-bottone {
+    background-color: #dc3545 !important;
+    /* Utilizza il rosso di Bootstrap */
+}
+
+.menu-item:hover,
+.menu-item:focus,
+.link-bottone:focus {
+    background-color: #dc3545;
 }
 
 .image-container {
@@ -192,7 +169,7 @@ nav .centrato h2 {
 }
 
 .button {
-    background: rgb(43, 43, 143) !important;
+    background: white !important;
     border: none;
     cursor: pointer;
     outline: none;
@@ -204,12 +181,26 @@ nav .centrato h2 {
     color: white !important;
 }
 
+.link-bottone {
+    background: rgb(215, 117, 81) !important;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding: 20px;
+    color: white !important;
+    transition: background-color 0.3s ease;
+}
+
 .menu-item .dropdown-content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
     min-width: 120px;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px 0 white;
     z-index: 1;
     top: 100%;
     left: 50%;
@@ -228,12 +219,6 @@ nav .centrato h2 {
     cursor: default;
 }
 
-.menu-item:hover,
-.menu-item:hover .button,
-.menu-item:hover .image-container {
-    background-color: rgb(207, 75, 27) !important;
-}
-
 .button:focus+.dropdown-content,
 .button:focus-within+.dropdown-content {
     display: block;
@@ -244,13 +229,10 @@ nav .centrato h2 {
     padding: 20px;
     box-sizing: border-box;
     margin-left: 225px;
-    /* Spazio a sinistra per il filtro */
     margin-right: 250px;
-    /* Spazio a destra per il nav */
     overflow-wrap: break-word;
     flex: 1 0 auto;
     max-width: calc(100% - 475px);
-    /* Limita la larghezza del contenuto */
 }
 
 .bg-custom {
@@ -259,9 +241,7 @@ nav .centrato h2 {
 
 .scrollable-content {
     height: calc(100vh - 140px);
-    /* Altezza fissa */
     overflow-y: auto;
-    /* Abilita lo scorrimento verticale */
 }
 
 /* Footer Styles */
@@ -408,10 +388,10 @@ td.imgcentr a img {
 }
 
 .elemento-menu {
-    background: rgb(43, 43, 143) !important;
+    background: rgb(167, 84, 28);
     position: relative;
     display: inline-block;
-    border: 1px solid white !important;
+    border: 1px solid white;
     padding: 10px;
     margin-bottom: 10px;
     margin-top: 60px;
@@ -422,7 +402,7 @@ td.imgcentr a img {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white !important;
+    color: white;
 }
 
 .contenitore-immagine {
@@ -458,48 +438,6 @@ td.imgcentr a img {
     opacity: 1;
 }
 
-.link-bottone {
-    background: rgb(43, 43, 143) !important;
-    border: none;
-    cursor: pointer;
-    outline: none;
-    display: block;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    padding: 10px;
-}
-
-.elemento-menu .menu-dropdown {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 120px;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.elemento-menu:hover .menu-dropdown {
-    display: block;
-}
-
-.elemento-menu .menu-dropdown span {
-    color: black;
-    padding: 5px 7px;
-    text-decoration: none;
-    display: block;
-    cursor: default;
-}
-
-.elemento-menu:hover,
-.elemento-menu:hover .link-bottone,
-.elemento-menu:hover .contenitore-immagine {
-    background-color: rgb(207, 75, 27) !important;
-}
-
 .link-bottone:focus+.menu-dropdown,
 .link-bottone:focus-within+.menu-dropdown {
     display: block;
@@ -522,11 +460,11 @@ td.imgcentr a img {
 }
 
 .coloreTitolo {
-    color: rgb(207, 75, 27) !important;
+    color: rgb(207, 75, 27);
 }
 
 .coloreScritta {
-    color: rgb(43, 43, 143) !important;
+    color: rgb(43, 43, 143);
 }
 
 @media (max-width: 768px) {
