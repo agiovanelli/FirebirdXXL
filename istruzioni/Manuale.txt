@@ -16,7 +16,7 @@ Cosa fare per avviare l'app:
 
 7) Impostare ambiente virtuale con i comandi:
 
-python -m venv env
+python -m venv env (python3 -m venv env)
 
 .\env\Scripts\activate
 
