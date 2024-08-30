@@ -10,6 +10,8 @@ Cosa fare per avviare l'app:
 
 5) Aprire il Prompt dei comandi o Powershell
 
+(Assicurarsi di avere nella variabile di sistema "PATH" il percorso di installazione di python)
+
 6) Spostarsi nella cartella del progetto attraverso il comando "cd nome_del_path"
 
 7) Impostare ambiente virtuale con i comandi:
