@@ -12,7 +12,7 @@ Cosa fare per avviare l'app:
 
 (Assicurarsi di avere nella variabile di sistema "PATH" il percorso di installazione di python)
 
-6) Spostarsi nella cartella del progetto attraverso il comando "cd nome_del_path"
+6) Spostarsi nella cartella del progetto attraverso il comando "cd nome_del_percorso_della_cartella_del_progetto"
 
 7) Impostare ambiente virtuale con i comandi:
 
