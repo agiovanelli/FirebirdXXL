@@ -1,0 +1,35 @@
+Cosa fare per avviare l'app:
+
+1) Far partire pgAdmin4
+
+2) Creare un nuovo database denominato "Motorizzazione"
+
+3) Tasto destro sul database e cliccare su "restore"
+
+4) Inserire nella sezione "Filename" il file denominato "dbMotorizzazione" presente nella cartella "istruzioni" del nostro progetto
+
+5) Aprire il Prompt dei comandi o Powershell
+
+(Assicurarsi di avere nella variabile di sistema "PATH" il percorso di installazione di python)
+
+6) Spostarsi nella cartella del progetto attraverso il comando "cd nome_del_path"
+
+7) Impostare ambiente virtuale con i comandi:
+
+python -m venv env
+
+.\env\Scripts\activate
+
+8) Installare le dipendenze attraverso:
+
+pip install -r requirements.txt
+
+9) Configurare il database con:
+
+pip install psycopg2
+
+python manage.py migrate
+
+10) E infine avviare il server Django
+
+python manage.py runserver
