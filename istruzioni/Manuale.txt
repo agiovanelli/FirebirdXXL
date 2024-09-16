@@ -8,7 +8,8 @@ Cosa fare per avviare l'app:
 
 3) Tasto destro sul database e cliccare su "restore"
 
-4) Inserire nella sezione "Filename" il file denominato "dbMotorizzazione" presente nella cartella "istruzioni" del nostro progetto
+4) Inserire nella sezione "Filename" il file denominato "dbMotorizzazione" presente nella cartella "istruzioni/PostgreSQL 15" del nostro progetto
+4.a) Nel caso in cui il restore del database non vada a buon fine, fare l'update di PostgreSQL alla versione 16 e rifare il punto 4) con il file presente nella cartella "istruzioni/PostgreSQL 16" 
 
 5) Aprire il Prompt dei comandi o Powershell
 
