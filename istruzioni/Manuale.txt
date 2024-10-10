@@ -15,10 +15,12 @@ Cosa fare per avviare l'app:
 
 (Assicurarsi di avere nella variabile di sistema "PATH" il percorso di installazione di python)
 
-6) Spostarsi nella cartella del progetto attraverso il comando "cd nome_del_percorso_della_cartella_del_progetto"
+6) Spostarsi nella cartella del progetto attraverso il comando "cd percorso_progetto"
 
 7) Impostare ambiente virtuale con i comandi:
-7.a) python -m venv env (python3 -m venv env)
+7.a) In base alla versione di python installata:
+7.a.1) python -m venv env
+7.a.2) python3 -m venv env
 7.b) .\env\Scripts\activate
 
 8) Installare le dipendenze attraverso:
